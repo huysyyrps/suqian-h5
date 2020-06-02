@@ -1,0 +1,141 @@
+<template>
+	<view class="bg-white">
+		
+		<!-- <cLabel v-for="(e,i) in " title='text' v-model='form.text' :clear='true' @handRight='handTextRight' :flex='false' :dataText='form.text' mode='text'  rightIcon='cuIcon-close'   /> -->
+		<cLabel title='1路'  v-model='form.text' rightIcon='cuIcon-people'   />
+		<cLabel title='加车时间 : ' :dataText='form.time'  v-model='form.time' mode='time'    />
+		<cLabel title='车辆自编号 : ' :dataText='form.selector'  :selectList="selectList"  v-model='form.selector' mode='selector'    />
+		<cLabel title='驾驶员 : ' :dataText='form.selector'  :selectList="selectList"  v-model='form.selector' mode='selector'    />
+		<cLabel title='发车类型 : ' :dataText='form.selector'  :selectList="selectList"  v-model='form.selector' mode='selector'    />
+		<cLabel title='运营时长' v-model='form.idcard'  mode='idcard' :dataText='form.idcard'    />
+		
+		
+		<!-- 
+		<cLabel title='text' v-model='form.text' @handRight='handTextRight' :flex='false' :dataText='form.text' mode='text'  rightIcon=''   />
+		<cLabel title='number' v-model='form.number'  mode='number' :dataText='form.number' rightText='元' rightIcon='text-orange'  />
+		<cLabel title='idcard' v-model='form.idcard'  mode='idcard' :dataText='form.idcard'  rightIcon='cuIcon-vipcard text-red'  />
+		<cLabel title='password' v-model='form.password'  :mode='isPass' :dataText='form.password' @handRight='handRight(passState)' :rightIcon='passState'   />
+		<cLabel title='switch' @hand='handSwitch' :dataText='form.switch'  align='right'  mode='switch' rightIcon=''   />
+		
+		<cLabel title='textarea' v-model='form.textarea' @handRight='handTextareaRight' :dataText='form.textarea' mode='textarea' rightIcon='cuIcon-close'    />
+		<cLabel title='img'  @hand='handImg' mode='img' :flex='false'   />
+		<cLabel title='selector' :dataText='form.selector'  :selectList="selectList"  v-model='form.selector' mode='selector'    />
+		<cLabel title='half' :dataText='form.half'  :disabled='true'  v-model='form.half' mode='half'    /> 
+		<cLabel title='date' :dataText='form.date' v-model='form.date'   mode='date'    /> 
+		<cLabel title='yearMonth' :dataText='form.yearMonth' v-model='form.yearMonth' mode='yearMonth'    />
+		<cLabel title='dateTime' :dataText='form.dateTime'  v-model='form.dateTime' mode='dateTime' rightIcon='cuIcon-remind text-mauve'   /> 
+		<cLabel title='range' :dataText='form.range'  v-model='form.range' mode='range'    /> 
+		<cLabel title='time' :dataText='form.time'  v-model='form.time' mode='time'    />
+		<cLabel title='region' :dataText='form.region'  v-model='form.region' mode='region' rightIcon='cuIcon-locationfill text-blue'    />
+		<cLabel title='limit' :dataText='form.limit'  v-model='form.limit' mode='limit'    />
+		<cLabel title='limitHour' :dataText='form.limitHour'  v-model='form.limitHour' mode='limitHour'    /> -->
+		
+		<view class="ffoot">
+			<button class="bg-blue" @tap="handSubmit">确定</button>
+		</view>
+		
+		
+		
+		<!-- <cLabel v-for="(e,i) in columns" :key='i' :mode='e.mode' :flex="e.flex" :title='e.title' v-model='e.dataText' :dataText='ndata.dataText'  :rightIcon='e.rightIcon'   /> -->
+	</view>
+</template>
+
+<script>
+	var check = require('@/common/checker.js')
+	import cLabel from "@/components/c-label/c-label.vue"
+	import cUpload from "@/components/c-upload/c-upload.vue"
+	export default {
+		components:{
+			cLabel,
+			cUpload
+		},
+		data() {
+			return {
+				
+				// columns:[
+				// 	{title:'text',mode:'text',dataText:'',rightIcon:'cuIcon-people',flex:false},
+				// 	{title:'number',mode:'number',dataText:'',rightIcon:'cuIcon-recharge text-orange',},
+				// 	{title:'idcard',mode:'number',dataText:'',rightIcon:'cuIcon-vipcard text-red',},
+				// ],
+				// ndata:{
+					
+				// },
+				
+				
+				isPass:'password',
+				passState:'cuIcon-attentionforbidfill text-gray',
+				selectList:[
+					{label:"公交",value:1},
+					{label:"大巴",value:2},
+					{label:"其他",value:-9},
+				],
+				form:{
+					text:"",
+					number:'',
+					idcard:'',
+					password:'',
+					switch:true,
+					textarea:'',
+					img:[],
+					selector:'',
+					half:'',
+					date:'',
+					yearMonth:'',
+					dateTime:'',
+					range:'',
+					time:'',
+					region:'',
+					limit:'',
+					limitHour:'',
+				},
+				rules:{
+					text:[
+						{checkType:'phone',errorMsg:'请正确输入手机号码'},
+						{checkType:'maxMin',max:11,min:7,errorMsg:'长度介于 7-11 个字符'},
+					],
+					idcard:[
+						{checkType:'noempty',errorMsg:'不能为空'},
+						{checkType:'card',errorMsg:'请正确输入身份证号码'},
+					]
+				}
+			}
+		},
+		methods: {
+			handTextareaRight(){
+				this.form.textarea = ''
+			},
+			handTextRight(){
+				this.form.text = ''
+			},
+			handRight(val){
+				this.passState = this.isPass == 'password' ? 'cuIcon-attentionfill text-green' : 'cuIcon-attentionforbidfill text-gray';
+				this.isPass = this.isPass == 'password' ? 'text' : 'password'
+			},
+			handSwitch(val){
+				this.form.switch = val;
+			},
+			handImg(val){
+				this.form.img = val;
+			},
+			
+			handSubmit(){
+				let state = check.check(this.form, this.rules);
+				console.log(state)
+				if(!state){
+					uni.showToast({ title:check.error, icon:'none', duration:2000 })
+					return
+				}else{
+					uni.showToast({ title:'表单验证成功', duration:2000 })
+				}
+			}
+		}
+	}
+</script>
+<style>
+	.bg-blue{
+		background-color: #007AFF;
+		width: 70%;
+		margin-top: 100rpx;
+		color: #ffffff;
+	}
+</style>

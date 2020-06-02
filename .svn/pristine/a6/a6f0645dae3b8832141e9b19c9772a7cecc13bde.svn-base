@@ -1,0 +1,278 @@
+<!-- 考勤信息查询 -->
+<template>
+	<view style="padding: 20rpx 20rpx;">
+		<uni-list style="border-radius: 16rpx; font-size: 33rpx;">
+			<uni-list-item :show-arrow="false" style="display: flex;">
+				<view style="display: flex;">
+					<text style="width: 160rpx;">工作人员:</text>
+					<view style="flex-grow: 1;position:relative;">
+						<input placeholder="请选择您要查询的对象" :value="personName" type="text" />
+						<view @click="selectPersonName" style="left: 0rpx; top: 0rpx; width:100%; height: 100%;  background-color:rgba(0,0,0,0); position: absolute;"></view>
+					</view>
+				</view>
+			</uni-list-item>
+			<uni-list-item :show-arrow="false" style="display: flex;">
+				<view class="displayMain">
+					<picker mode="date" fields="month" @change="bindStartDateChange" style=" position:relative;">
+						<input class="title-font" style="text-align: left;" placeholder="开始时间" 
+							   :value="startDate" type="text" />
+					</picker>
+					<view style="width: 70%; height: 1rpx; background-color: #EBEBEB;"></view>
+					<picker mode="date" fields="month" @change="bindEndDateChange" style="flex-grow: 1; position:relative;">
+						<input class="title-font" style="text-align: right;" placeholder="结束时间"
+							   :value="endDate" type="text" />
+					</picker>
+				</view>
+			</uni-list-item>
+		</uni-list>
+		<template v-if="attendanceArr.length > 0">
+			<!-- 列表 -->
+			<block v-for="(item,index) in attendanceArr" :key="index">
+				<uni-list style="margin-top: 20rpx; border-radius: 16rpx;">
+					<uni-list-item :show-arrow="false" style="display: flex;" :key="index">
+						<view class="displayMain">
+							<view style="font-size: 30rpx;">{{item.time}}</view>
+							<view style="width: 30rpx;"></view>
+							<view v-if="item.attState === '正常'" style="background-color: #4CD964; " 
+							      class="viewSet">{{item.attState}}</view>
+							<view v-if="item.attState === '早退'" style="background-color: #FF6200;" 
+							      class="viewSet">{{item.attState}}</view>
+							<view v-if="item.attState === '迟到'" style="background-color: #FF6200;"
+							      class="viewSet">{{item.attState}}</view>
+							<view v-if="item.attState === '未签到'" style="background-color: #FF6200;"
+							      class="viewSet">{{item.attState}}</view>
+						    <view v-if="item.attState === '请假'" style="background-color: #4FC6FF;"
+						          class="viewSet">{{item.attState}}</view>
+							<view v-if="item.attState === '旷工'" style="background-color: #FF001C;"
+							      class="viewSet">{{item.attState}}</view>
+						</view>
+						<view style="display: flex; margin-top: 15rpx; font-size: 30rpx;">
+							<!-- <view v-if="item.SignInTime.length === 0" style="color: #808080;">上班签到: 无</view> -->
+							<view style="color: #808080;">上班: {{item.SignInTime}}</view>
+							<view style="width: 80rpx;"></view>
+							<view style="color: #808080;">下班: {{item.SignOutTime}}</view>
+						</view>
+					</uni-list-item>
+				</uni-list>	
+			</block>
+		</template>
+		<!-- 无数据 -->
+		<template v-else>
+			<no-content></no-content>
+		</template>
+	</view>
+	
+</template>
+
+<script>
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
+	import noContent from '@/common/uni-common/no_content.vue'
+	// var resquestJSOB = require('../../../common/js/hy-request.js');
+	// var urlJSOB = require('../../../common/js/hy-url.js');
+	export default {
+		components:{ //注册一下
+			uniList,
+			uniListItem,
+			noContent
+		},
+		data() {
+			const currentDate = this.getDate({
+				format: true
+			})
+			return {
+				personName: "王小明",
+				startDate: "开始日期",
+				endDate: "结束日期",
+				page: 0,
+				currentDate:currentDate,
+				isRelodData:false,
+				status: 'more',
+				statusTypes: [{
+					value: 'more',
+					text: '加载前'
+				}, {
+					value: 'loading',
+					text: '加载中'
+				}, {
+					value: 'noMore',
+					text: '没有更多'
+				}],
+				contentText: {
+					contentdown: '上拉加载更多',
+					contentrefresh: '加载中',
+					contentnomore: '没有更多'
+				},
+				attendanceArr: [
+					{
+						time: "2020-04-01",
+						attState: "正常",
+						SignInTime: "6:30",
+						SignOutTime: "20:03"
+					},{
+						time: "2020-04-02",
+						attState: "早退",
+						SignInTime: "6:30",
+						SignOutTime: "20:03"
+					},{
+						time: "2020-04-03",
+						attState: "迟到",
+						SignInTime: "6:30",
+						SignOutTime: "20:03"
+					},{
+						time: "2020-04-04",
+						attState: "请假",
+						SignInTime: "6:30",
+						SignOutTime: "20:03"
+					},{
+						time: "2020-04-05",
+						attState: "未签到",
+						SignInTime: "",
+						SignOutTime: "20:03"
+					},{
+						time: "2020-04-06",
+						attState: "旷工",
+						SignInTime: "",
+						SignOutTime: ""
+					}
+				],
+			}
+		},
+		onLoad(e) {
+			// this.getFirstAttendanceData()
+		},
+		onShow() {
+			if(this.isRelodData === true){
+				this.isRelodData = false
+				this.getFirstAttendanceData()
+			}
+		},
+		onReachBottom() { //上拉刷新
+			
+			if (this.status === 'noMore') {
+				return
+			}
+			this.status = 'loading'
+			this.pullUpRefresh()
+		},
+		methods: {
+			endRefresh() { //
+				this.status = 'more'
+			},
+			noMoreData() {
+				this.status = 'noMore'
+			},
+			pullUpRefresh() {
+				this.page++;
+				this.sendGetListDataRequest()
+			},
+			// clickListItem(data) {
+			// 	var data = JSON.stringify(data)
+			// 	uni.navigateTo({
+			// 		url: "accident-files-detail?detailData=" + encodeURIComponent(data)
+			// 	})
+			// },
+			getFirstAttendanceData(){
+				this.page = 0;
+				this.attendanceArr = new Array()
+				this.sendGetListDataRequest()
+				
+			},
+			// 网络请求
+			sendGetListDataRequest() { //
+				var that = this;
+				
+				// resquestJSOB.sendGetRequestJson({
+				// 	url: urlJSOB.accident_fiels_URL, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+				// 	data: {
+				// 		start: 25 * that.page,
+				// 		limit: 25,
+				// 		Q_carNo_S_EQ: that.carNo,
+				// 		Q_driverName_S_EQ: that.userCode,
+				// 		Q_atAtDate_S_GE: that.startDate,
+				// 		Q_atAtDate_S_LE: that.endDate
+				
+				// 	},
+				// 	successCallBack: function(data) {
+				// 		var result = data.result;
+				// 		that.attendanceArr = that.listData.concat(result)
+						
+				// 		console.log("result.length")
+				// 		console.log(result.length)
+				// 		if (result.length < 20) {
+				// 			that.noMoreData();
+				// 		} else {
+				// 			that.endRefresh();
+				// 		}
+				
+				// 	},
+				// 	failCallBack: function() {
+				// 		that.endRefresh();
+				// 	}
+				// });
+			},
+			
+			selectPersonName() {
+				uni.navigateTo({
+					url:"../SelectAttendancePerson/SelectAttendancePerson"
+				})
+			},
+			bindStartDateChange: function(e) {
+				this.startDate = e.target.value
+				if(this.endDate!=""){
+					this.getFirstPageData()
+				}
+			},
+			bindEndDateChange: function(e) {
+				this.endDate = e.target.value
+				if(this.startDate!=""){
+					this.getFirstPageData()
+				}
+			},
+			getDate(type) {
+			    const date = new Date();
+			    let year = date.getFullYear();
+			    let month = date.getMonth() + 1;
+			    let day = date.getDate();
+			
+			    if (type === 'start') {
+			        year = year - 60;
+			    } else if (type === 'end') {
+			        year = year + 2;
+			    }
+			    month = month > 9 ? month : '0' + month;
+			    day = day > 9 ? day : '0' + day;
+			    return `${year}-${month}`;
+			}
+		}
+	}
+</script>
+
+<style>
+	page{
+		 background-color: #F5F5F5;
+	}
+	.displayMain{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.viewSet{
+		text-align: center;
+		color: #FFFFFF;
+		font-size: 25rpx;
+		padding-top: 7rpx;
+		width: 100rpx;
+		height: 40rpx;
+		border-radius: 25rpx;
+	}
+	.margin{
+		margin: 30rpx;
+	}
+	
+	.flexAndPadding{
+		display: flex;
+		padding: 10rpx 0rpx;
+	}
+</style>
+

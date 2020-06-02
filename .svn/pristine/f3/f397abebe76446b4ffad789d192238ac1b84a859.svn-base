@@ -1,0 +1,155 @@
+<template>
+	<view class="content">
+		<map class="map" id="map1" ref="map1" :scale="scale" :longitude="location.longitude" :latitude="location.latitude" :markers="markers" :polyline="polyline"></map>
+	</view>
+</template>
+
+<script>
+var resquestJSOB = require('@/common/js/hy-request.js');
+var urlJSOB = require('@/common/js/hy-url.js');
+var stringUtil = require('@/common/js/hy-stringUtil.js');
+var testMarkers = [];
+var testPolyline = [
+	{
+		points: [],
+		color: '#007AFF',
+		width: 3
+	}
+];
+var Linem;
+module.exports = {
+	data() {
+		return {
+			location: {
+				longitude: '',
+				latitude: ''
+			},
+			scale: 13,
+			polyline: [],
+			markers: [],
+			polygons: [],
+			circles: [],
+			includePoints: [],
+			mStatic: [],
+			carNum: [],
+			carMark: [],
+			rotate: 0,
+			skew: 0,
+			timer: null
+		};
+	},
+	onLoad(options) {
+		Linem=options.Linecode;
+		this.sendStationRequest();
+		this.sendCarRequest();
+		this.timer = setInterval(() => {
+			
+			this.sendCarRequest();
+		}, 5000);
+	},
+	onReady() {
+		this.map = uni.createMapContext('map1', this);
+	},
+	methods: {
+		sendStationRequest() {
+			var that = this;
+			resquestJSOB.sendGetRequestJsonlky({
+				url: 'http://221.6.253.254:8070/sdhyschedule/PhoneQueryAction!getLineStation.shtml', //sdhyscheduleSQ/PhoneQueryAction!getLineRealTime.shtml",//
+				data: {
+					lineCode: Linem
+				},
+				successCallBack: function(res) {
+					console.log(res);
+					console.log("**************************************");
+					var array = [];
+					array = res.stationList;
+					if (array.length != 0 && array.length > 2) {
+						that.location.longitude = array[2].lon;
+						that.location.latitude = array[2].lat;
+					}
+					
+					for (var i = 0; i < array.length; i++) {
+						if (array[i].sxx == 0) {
+							let station = {
+								tag: 's',
+								latitude: array[i].lat,
+								longitude: array[i].lon,
+								iconPath: '/static/station.png'
+							};
+							testMarkers.push(station);
+							that.mStatic.push(station);
+							let line = {
+								latitude: array[i].lat,
+								longitude: array[i].lon
+							};
+							testPolyline[0].points.push(line);
+						}
+					}
+					// that.markers = testMarkers;
+					that.polyline = testPolyline;
+					that.sendCarRequest();
+				},
+				failCallBack: function() {}
+			});
+		},
+		changeScale() {
+			this.scale = this.scale == 9 ? 15 : 9;
+		},
+		sendCarRequest() {
+			var that = this;
+			
+			resquestJSOB.sendGetRequestJsonlky({
+				url: 'http://221.6.253.254:7006', //sdhyscheduleSQ/PhoneQueryAction!getLineRealTime.shtml",//
+				//url : "http://221.6.253.254:8070/sdhyschedule/PhoneQueryAction!getLineStation.shtml",
+				data: {
+					lineCode: Linem,
+					sxx: '0'
+				},
+				successCallBack: function(res) {
+					var carNum = [];
+					carNum = res;
+					console.log(that.mStatic.length);
+					console.log(testMarkers.length);
+					testMarkers.splice(that.mStatic.length);
+					// console.log(testMarkers.length);
+					/* console.log(testMarkers.length)
+					console.log(testMarkers[0].tag) */
+					// for(var i = 0;i<testMarkers.length;i++){
+					// 	// console.log(testMarkers[i].tag.indexOf("c"))
+					// 	if (testMarkers[i].tag.indexOf("c")!=-1) {
+					// 		testMarkers.slice(i, testMarkers.length);
+					// 	//	delete testMarkers[i];
+					// 		 // testMarkers[i]='';
+					// 		 // console.log(testMarkers[i])
+					// 	} 
+					// 	// console.log(testMarkers[i].latitude)
+					// }
+					
+					for (var i = 0; i < carNum.length; i++) {
+						// if(carNum[i].sxx == 0){
+						let car = {
+							tag: 'c',
+							latitude: carNum[i].lat,
+							longitude: carNum[i].lon,
+							iconPath: '/static/car.png'
+						};
+						testMarkers.push(car);
+						// }
+					}
+					that.markers = testMarkers;
+				},
+				failCallBack: function() {}
+			});
+		}
+	}
+	
+};
+</script>
+
+<style>
+.map {
+	width: 750rpx;
+	height: 1200rpx;
+	background-color: #f0f0f0;
+}
+</style>

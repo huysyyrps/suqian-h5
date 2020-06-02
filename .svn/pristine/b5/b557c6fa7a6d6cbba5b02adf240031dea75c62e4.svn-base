@@ -1,0 +1,112 @@
+<template>
+	<view class="bg-white">
+		
+		<!-- <cLabel v-for="(e,i) in " title='text' v-model='form.text' :clear='true' @handRight='handTextRight' :flex='false' :dataText='form.text' mode='text'  rightIcon='cuIcon-close'   /> -->
+		<cLabel title='接收车辆:1008' v-model='form.textarea' @handRight='handTextareaRight' :dataText='form.textarea' mode='textarea' rightIcon='cuIcon-close'    />
+		
+		<view class="ffoot">
+			<button class="bg-blue" @tap="handSubmit">确定</button>
+		</view>
+		
+	</view>
+</template>
+
+<script>
+	var check = require('@/common/checker.js')
+	import cLabel from "@/components/c-label/c-label.vue"
+	import cUpload from "@/components/c-upload/c-upload.vue"
+	export default {
+		components:{
+			cLabel,
+			cUpload
+		},
+		data() {
+			return {
+				
+				// columns:[
+				// 	{title:'text',mode:'text',dataText:'',rightIcon:'cuIcon-people',flex:false},
+				// 	{title:'number',mode:'number',dataText:'',rightIcon:'cuIcon-recharge text-orange',},
+				// 	{title:'idcard',mode:'number',dataText:'',rightIcon:'cuIcon-vipcard text-red',},
+				// ],
+				// ndata:{
+					
+				// },
+				
+				
+				isPass:'password',
+				passState:'cuIcon-attentionforbidfill text-gray',
+				selectList:[
+					{label:"公交",value:1},
+					{label:"大巴",value:2},
+					{label:"其他",value:-9},
+				],
+				form:{
+					text:"",
+					number:'',
+					idcard:'',
+					password:'',
+					switch:true,
+					textarea:'',
+					img:[],
+					selector:'',
+					half:'',
+					date:'',
+					yearMonth:'',
+					dateTime:'',
+					range:'',
+					time:'',
+					region:'',
+					limit:'',
+					limitHour:'',
+				},
+				rules:{
+					text:[
+						{checkType:'phone',errorMsg:'请正确输入手机号码'},
+						{checkType:'maxMin',max:11,min:7,errorMsg:'长度介于 7-11 个字符'},
+					],
+					idcard:[
+						{checkType:'noempty',errorMsg:'不能为空'},
+						{checkType:'card',errorMsg:'请正确输入身份证号码'},
+					]
+				}
+			}
+		},
+		methods: {
+			handTextareaRight(){
+				this.form.textarea = ''
+			},
+			handTextRight(){
+				this.form.text = ''
+			},
+			handRight(val){
+				this.passState = this.isPass == 'password' ? 'cuIcon-attentionfill text-green' : 'cuIcon-attentionforbidfill text-gray';
+				this.isPass = this.isPass == 'password' ? 'text' : 'password'
+			},
+			handSwitch(val){
+				this.form.switch = val;
+			},
+			handImg(val){
+				this.form.img = val;
+			},
+			
+			handSubmit(){
+				let state = check.check(this.form, this.rules);
+				console.log(state)
+				if(!state){
+					uni.showToast({ title:check.error, icon:'none', duration:2000 })
+					return
+				}else{
+					uni.showToast({ title:'表单验证成功', duration:2000 })
+				}
+			}
+		}
+	}
+</script>
+<style>
+	.bg-blue{
+		background-color: #007AFF;
+		width: 70%;
+		margin-top: 100rpx;
+		color: #ffffff;
+	}
+</style>

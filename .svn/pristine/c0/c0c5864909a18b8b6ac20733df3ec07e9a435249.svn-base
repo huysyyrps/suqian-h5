@@ -1,0 +1,129 @@
+<!-- 获取司机名字 -->
+<template>
+	<view>
+		<view style="margin: 20rpx 20rpx; background-color: #FFFFFF; padding: 20rpx 30rpx; border-radius: 20rpx;">
+			<input @input="onVuleChange" style="font-size: 30rpx;"  placeholder="输入关键字" />
+		</view>
+		<uni-list>
+			<uni-list-item v-for="(item,index) in driverListData" :index="index" :key="index" :show-arrow="false" @click="clickListItem(item)">
+				<text style="font-size: 28rpx;">{{item.driverName}}</text>
+			</uni-list-item>
+		</uni-list>
+	</view>
+</template>
+
+<script>
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
+	var resquestJSOB = require('../../common/js/hy-request.js');
+	var urlJSOB = require('../../common/js/hy-url.js');
+	var stringUtil = require('../../common/js/hy-stringUtil.js');
+	export default {
+		data() {
+			return {
+				driverListData:[],
+				allDriversData:[],
+				userType:"01",
+				userCode:""
+			}
+		},
+		components: {
+			uniList,
+			uniListItem
+		},
+		onLoad() {
+			this.userCode = uni.getStorageSync("userCode")
+			// alert(this.userCode)
+			this.sendDriverNameDataRequest()
+		},
+		methods: {
+			clickListItem(data){
+				var pages = getCurrentPages();
+				var currPage = pages[pages.length - 1]; //当前页面
+				var prevPage = pages[pages.length - 2]; //上一个页面
+				//直接调用上一个页面的setData()方法，把数据存到上一个页面中去
+				prevPage.$vm.driverName = data.driverName
+				prevPage.$vm.isRelodData = true
+				uni.navigateBack({
+					
+				})
+			},
+			// 网络请求
+			sendDriverNameDataRequest() { //
+				var that = this;
+				
+				resquestJSOB.sendGetRequestJson({
+					url: urlJSOB.getAllDriverNameURL, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+					data: { 
+						userType: this.userType,
+						userCode: this.userCode
+					},
+					successCallBack: function(res) {
+						console.log('请求')
+						console.log(res.driverList)
+						that.driverListData = res.driverList  
+						that.allDriversData = res.driverList
+					
+				    },
+					failCallBack: function() {
+							
+					}
+				});
+			},
+			
+		    onVuleChange(event) {
+			    var keyWord= event.target.value
+				this.driverListData = this.fuzzyQuery(keyWord)
+			},
+			fuzzyQuery(keyWord){
+				var newData = new Array()
+				var originalData = this.allDriversData
+				if(keyWord===""){
+					return originalData
+				}
+				
+				for (var i = 0; i < originalData.length; i++) {
+					var obj = originalData[i]
+					if(stringUtil.testString(obj.driverName,keyWord)){
+						newData.push(obj)
+					}
+				}
+				return newData
+			},
+			cache:function(key, value) {
+				var timestamp = Date.parse(new Date()) / 1000
+				console.log(timestamp+"==="+key)
+				if (key && value === null) {
+					//删除缓存
+					//获取缓存
+					var val = uni.getStorageSync(key);
+					var tmp = val.split("|")
+					if (!tmp[1] || timestamp >= tmp[1]) {
+						console.log("key已失效")
+						uni.removeStorageSync(key)
+						return ""
+					} else {
+						console.log("key未失效")
+						return tmp[0]
+					}
+				} else if (key && value) {
+					//设置缓存 3天过期 * 3
+					///////测试阶段一天
+					var expire = timestamp + (3600 * 24)
+					value = value + "|" + expire
+					uni.setStorageSync(key, value);
+				} else {
+					console.log("key不能空")
+				}
+			}
+		}
+	}
+</script>
+
+<style>
+	page{
+		 background-color: #E6E6E6;
+	}
+</style>
+
+

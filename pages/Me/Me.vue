@@ -1,0 +1,92 @@
+<template>
+	<view>
+		<view class="backgroundImage">
+			<view class="flex align-center" style="padding-top: 100rpx;">
+				<image src="../../static/me_icon.png" style="width: 100rpx; height: 100rpx; margin-left: 30rpx; margin-right: 30rpx;"></image>
+				<view class="flex-1">
+					<view style="color: #FFFFFF; font-size: 36rpx;">{{name}}</view>
+					<view style="color: #FFFFFF; font-size: 27rpx;">{{department}}</view>
+				</view>
+			</view>
+		</view>
+		<uni-list>
+			<uni-list-item v-for="(item, index) in meArray" :index="index" :key="index" :show-arrow="false">
+				<view class="flex align-center justify-between">
+					<text class="title-text">{{item.title}}</text>
+					<text class="content-text">{{item.value}}</text>
+				</view>
+			</uni-list-item>
+		</uni-list>
+		<view class="searchBtn title-font" @click="loginoutClick">退出登录</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				name: "",
+				department: "",
+				meArray:[
+					{
+						title: "职位名称",
+						value: ""
+					}
+				]
+			}
+		},
+		onLoad() {
+			this.getStorage()
+		},
+		
+		methods: {
+			getStorage(){
+				try{
+					this.name = uni.getStorageSync("userName")
+				    this.department = uni.getStorageSync("depName")
+					this.meArray[0].value = uni.getStorageSync("roleName")
+				}catch(e){
+					//TODO handle the exception
+				}
+			},
+			loginoutClick(){
+				uni.showModal({
+				    title: '确定要退出登录吗',
+				    content: '',
+				    success: function (res) {
+				        if (res.confirm) {
+							uni.removeStorageSync("userName")
+							uni.removeStorageSync("passWord")
+							uni.removeStorageSync("userCode")
+							uni.removeStorageSync("depName")
+				            uni.removeStorageSync("depId")
+							uni.removeStorageSync("superRoleName")
+							uni.removeStorageSync("roleName")
+							uni.removeStorageSync("rights")
+							uni.removeStorageSync("loginName")
+							uni.removeStorageSync("loginInfo")
+							if(app != null){
+								app.loginoutClick()
+							}else{
+								uni.navigateTo({
+									url:"../login/login"
+								})
+							}
+				        }else if (res.cancel) {
+				            
+				        }
+				    }
+				});
+			}
+		}
+	}
+</script>
+
+<style>
+	.backgroundImage{
+		background-image: url(../../static/me_background.png);
+		width: 100%;
+		height: 250rpx;
+	}
+	
+</style>

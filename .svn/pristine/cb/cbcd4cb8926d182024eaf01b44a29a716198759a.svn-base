@@ -1,0 +1,24 @@
+<template>
+	<view></view>
+</template>
+
+<script>
+	export default {
+	onShow() {
+		this.pushToAccReVc();
+	},
+	methods: {
+		pushToAccReVc(){
+			try {
+				console.log("事故上报")
+			    window.webkit.messageHandlers.pushToAccidentReportingVC.postMessage();
+			}catch(err){ }
+		},
+		
+	},
+	}
+	
+</script>
+
+<style>
+</style>

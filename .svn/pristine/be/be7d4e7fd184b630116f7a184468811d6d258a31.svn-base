@@ -1,0 +1,78 @@
+.apply-flex{
+	display: flex;
+}
+.apply-flex-row{
+	flex-direction: row;
+}
+.apply-flex-column{
+	flex-direction: column;
+}
+
+.apply-align-center{
+	align-items: center;
+}
+
+.apply-justify-between{
+	justify-content: space-between;
+}
+.apply-justify-center{
+	justify-content: center;
+}
+
+.apply-base-fontSize{
+	font-size: 30rpx;
+}
+
+.apply-text-right{
+	text-align: right;
+}
+
+.apply-margin-top{
+	margin-top: 20rpx;
+}
+.button-bottom{
+		padding-bottom: 0;  
+		padding-bottom: constant(safe-area-inset-bottom);  
+		padding-bottom: env(safe-area-inset-bottom);  
+	}
+/* .apply-submitbutton-bottom{
+	bottom: ;
+} */
+
+/* 定位 - 固定底部 */
+.fixed-bottom {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1030;
+}
+
+
+/* .apply-
+
+.apply-
+
+.apply-
+
+.apply-
+
+.apply-
+
+.apply-
+
+.apply-
+
+.apply-
+
+.apply-*/
+
+
+
+
+
+
+
+
+
+

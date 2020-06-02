@@ -1,0 +1,309 @@
+<template>
+	<view>
+		<view class="displayMain"style="background-color: #FFFFFF;">
+			<view class="displayMain">
+				<picker mode="date" @change="bindStartDateChange" style="flex-grow: 1;position:relative;">
+					<input placeholder="开始时间" :value="startDate" type="text" />
+					<view style="left: 0rpx; top: 0rpx; width:100%; height: 100%;  background-color:rgba(0,0,0,0); position: absolute;"></view>
+				</picker>
+				<view style="width: 50%; height: 1rpx; background-color: #EBEBEB;"></view>
+				<picker mode="date" @change="bindEndDateChange" style="flex-grow: 1;position:relative;">
+					<input style="text-align: right;" placeholder="结束时间" :value="endDate" type="text" />
+					<view style=" width:100%; height: 100%;  background-color:rgba(0,0,0,0); position: absolute; text-align: right;"></view>
+				</picker>
+			</view>
+		</view>
+		<view class="v-hline"></view>
+		<view class="v-edit"style="background-color: #FFFFFF;">
+			<text class="tv-name">{{ '标题 :' }}</text>
+			<view class="v-vline"></view>
+			<input v-model="title" type="text" focus class="in-text" focus placeholder="请输入流程标题" />
+		</view>
+		<view class="v-hline"></view>
+
+		<view v-for="(item, dataindex) in dataList" :key="dataindex"style="background-color: #FFFFFF;">
+			<view class="list-item" :showArrow="false" @click="listClient(item)">
+				<view class="list-item-view">
+					<text class="tv-name">{{ '创建人 :' }}</text>
+					<text class="tv-name">{{ item.creator }}</text>
+				</view>
+				<view class="list-item-view">
+					<text class="tv-name">{{ '任务名称 :' }}</text>
+					<text class="tv-name">{{ item.processName }}</text>
+				</view>
+				<view class="list-item-view">
+					<text class="tv-name">{{ '创建时间 :' }}</text>
+					<text class="tv-name">{{ item.createtime }}</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+var start = 0,
+	limit = 20,
+	tagType = '';
+import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
+var resquestJSOB = require('../../../common/js/hy-request.js');
+var urlJSOB = require('../../../common/js/hy-url.js');
+var dataString = require('../../../common/js/hy-stringUtil.js');
+export default {
+	components: {
+		uniNavBar
+	},
+	data() {
+		return {
+			title: '',
+			startDate: '',
+			endDate: '',
+			dataList: [],
+			dataListNew: []
+		};
+	},
+	onLoad(options) {
+		tagType = options.type;
+		this.getResourcesSX();
+	},
+	onReachBottom: function() {
+		start += 20;
+		this.getResourcesMoreSX();
+	},
+	methods: {
+		bindStartDateChange: function(e) {
+			this.startDate = e.target.value;
+			// if(this.endDate!=""){
+			// 	this.getFirstPageData()
+			// }
+		},
+		bindEndDateChange: function(e) {
+			this.endDate = e.target.value;
+			// if(this.startDate!=""){
+			// 	this.getFirstPageData()
+			// }
+		},
+		getResourcesSX: function(e) {
+			var that = this;
+			resquestJSOB.sendGetRequestJson({
+				url: urlJSOB.overflow, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+				data: {
+					start: start,
+					limit: limit,
+					'Q_vo.createtime_D_GE':that.startDate,
+					'Q_vo.createtime_D_LE':that.endDate,
+					Q_subject_S_LK:that.title
+				},
+				successCallBack: function(data) {
+					console.log(data);
+					that.dataList = [];
+					for (var i = 0; i < data.result.length; i++) {
+						that.dataList.push(data.result[i]);
+					}
+				},
+				failCallBack: function(e) {
+					print(e);
+				}
+			});
+		},
+		getResourcesMoreSX: function(e) {
+			var that = this;
+			resquestJSOB.sendGetRequestJson({
+				url: urlJSOB.overflow, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+				data: {
+					start: start,
+					limit: limit,
+					'Q_vo.createtime_D_GE':that.startDate,
+					'Q_vo.createtime_D_LE':that.endDate,
+					Q_subject_S_LK:that.title
+				},
+				successCallBack: function(data) {
+					for (var i = 0; i < data.result.length; i++) {
+						that.dataList.push(data.result[i]);
+					}
+				},
+				failCallBack: function(e) {
+					print(e);
+				}
+			});
+		},
+		finish:function(e){
+			uni.redirectTo({
+			    url: '../../index/index'
+			});
+		},
+		listClient: function(e) {
+			console.log(e.formDefId);
+			console.log(dataString.userCarFormDefId);
+			if (e.formDefId == dataString.userCarFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/userCarFlow/userCarFlowDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.maintainCarFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/maintainCar/maintainCarDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.receptionFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/reception/receptionDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.receptionDiningFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/receptionDining/receptionDiningDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.assetPurchaseFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/assetPurchase/assetPurchaseDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.assetDisposalFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/assetDisposal/assetDisposalDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.contractDigningFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/contractSigning/contractSigningDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.mettingHomeFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/mettingHome/mettingHomeDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.mettingLeaveFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/mettingLeaver/mettingLeaverDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.signatureFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/signature/signatureDetail?runId=' +e.runId
+				});
+			}
+			
+			if (e.formDefId == dataString.workPuechaseFormDefId) {
+				uni.navigateTo({
+					url:
+						'../flowitem/overflow/workPuechase/workPuechaseDetail?runId=' +e.runId
+				});
+			}
+		},
+		getResourcesNewSX:function(e){
+			var that = this;
+			start = 0;
+			limit = 20;
+			resquestJSOB.sendGetRequestJson({
+				url: urlJSOB.overflow, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+				data: {
+					start: start,
+					limit: limit,
+					'Q_vo.createtime_D_GE':that.startDate,
+					'Q_vo.createtime_D_LE':that.endDate,
+					Q_subject_S_LK:that.title
+				},
+				successCallBack: function(data) {
+					console.log(data);
+					that.dataList = [];
+					for (var i = 0; i < data.result.length; i++) {
+						that.dataList.push(data.result[i]);
+					}
+				},
+				failCallBack: function(e) {
+					print(e);
+				}
+			});
+		}
+	}
+};
+</script>
+
+<style>
+.displayMain {
+	height: 80rpx;
+	display: flex;
+	align-items: center;
+	font-size: 30rpx;
+	justify-content: space-between;
+}
+.v-edit {
+	height: 80rpx;
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.tv-name {
+	height: 70rpx;
+	width: auto;
+	color: #333333;
+	display: flex;
+	font-size: 30rpx;
+	justify-content: left;
+	margin-left: 20rpx;
+	align-items: center;
+}
+
+.in-text {
+	height: 70rpx;
+	flex-grow: 1;
+	flex-wrap: 1;
+	color: #333333;
+	display: flex;
+	font-size: 30rpx;
+	margin-left: 15rpx;
+	align-items: center;
+}
+
+.v-hline {
+	height: 2rpx;
+	width: 100%;
+	background-color: #aaaaaa;
+}
+
+.v-vline {
+	height: 25rpx;
+	width: 1rpx;
+	display: flex;
+	align-items: center;
+	background-color: #cccccc;
+}
+
+.list-item {
+	display: flex;
+	flex-direction: column;
+	border: #c0c0c0 1rpx solid;
+	border-radius: 15rpx;
+	margin: 5rpx;
+}
+
+.list-item-view {
+	height: 50rpx;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	margin-left: 10rpx;
+}
+</style>

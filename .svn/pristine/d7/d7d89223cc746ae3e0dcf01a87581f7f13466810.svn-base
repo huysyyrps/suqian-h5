@@ -1,0 +1,168 @@
+<!-- 里程完成率详情 -->
+<template>
+	<view>
+		<scroll-view scroll-x="true" scroll-y="true" show-scrollbar="false">
+		<t-table style="width: 200%; " border="1" border-color="#f5F5F5">
+			<t-tr font-size="16" color="#00000">
+				<t-th v-for="mileageItem in titleList"
+					      :key="mileageItem.index" style="width: 50%;" >{{mileageItem}}</t-th>
+			</t-tr>
+			<t-tr font-size="15" color="#000000" v-for="item in detailList" :key="item">
+				<t-td>{{item.number}}</t-td>
+				<t-td>{{item.dirver}}</t-td>
+				<t-td>{{item.GPSMileagae}}</t-td>
+				<t-td>{{item.actualMileage}}</t-td>
+				<t-td>{{item.busMileage}}</t-td>
+				<t-td>{{item.charterMileage}}</t-td>
+				<t-td>{{item.deadheadMileage}}</t-td>
+				<t-td>{{item.trips}}</t-td>
+				
+			</t-tr>
+		</t-table>
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	import tTable from '@/components/t-table/t-table.vue';
+	import tTh from '@/components/t-table/t-th.vue';
+	import tTr from '@/components/t-table/t-tr.vue';
+	import tTd from '@/components/t-table/t-td.vue';
+	export default {
+		components: {
+			tTable,
+			tTh,
+			tTr,
+			tTd
+		},
+		data() {
+			return {
+				titleList:[
+					{
+						title:"车号"
+					},{
+						title:"驾驶员"
+					},{
+						title:"GPS里程"
+					},{
+						title:"实际里程"
+					},{
+						title:"班车里程"
+					},{
+						title:"包车里程"
+					},{
+						title:"空驶里程"
+					},{
+						title:"趟次"
+					}
+				],
+				detailList:[
+					{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					},{
+						number:"1010",
+						dirver:"刘宝胜",
+						GPSMileagae:"",
+						actualMileage:"210.00",
+						busMileage:"0.00",
+						charterMileage:"0.00",
+						deadheadMileage:"7.20",
+						trips:"4.00",
+					}
+				]
+			}
+		}
+	}
+</script>
+
+<style>
+</style>
+

@@ -1,0 +1,136 @@
+<template>
+	<view>
+		<text class="tv-welcome">{{"welocmeText"}}</text>
+
+		<form>
+			<view class="v-userName">
+				<image class="ic-userName" type="personal"></image>
+				<input v-model="loginName" type="text" focus class="in-text" focus placeholder="请输入账号"/>
+			</view>
+
+			<view class="v-userName">
+				<image class="ic-passWord" type="personal"></image>
+				<input v-model="passWord" class="in-text" placeholder="请输入密码" type="password" />
+			</view>
+
+			<button class="btn-login" type="primary" form-type="submit" @tap="bindLogin">{{btnLogin}}</button>
+		</form>
+
+	</view>
+</template>
+
+<script>
+	var resquestJSOB = require('../../common/js/hy-request.js');
+	var urlJSOB = require('../../common/js/hy-url.js');
+	export default {
+		data() {
+			return {
+				welocmeText: "",
+				btnLogin: "",
+				loginName: "",
+				passWord: "",
+				text: ""
+			}
+		},
+		methods: {
+			bindLogin() {
+				if (!this.loginName || !this.passWord) {
+					uni.showToast({
+						title: '请输入用户名与密码',
+						icon: 'none',
+						duration: 800,
+						position: "bottom"
+					})
+					return
+				}
+				
+				resquestJSOB.sendGetRequestJson({
+					url: urlJSOB.login, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+					data: {
+						username: this.loginName,
+						password: this.passWord,
+					},
+					successCallBack: function(res) {
+						console.log(res);
+						uni.setStorageSync('userName',res.username);
+						uni.setStorageSync('passWord',this.passWord);
+						uni.setStorageSync('loginName',this.loginName);
+						uni.setStorageSync('userId',res.userId);
+						uni.setStorageSync('userCode',res.userCode);
+						uni.setStorageSync('superRoleName',res.superRoleName);
+						uni.setStorageSync('roleName',res.roleName);
+						uni.setStorageSync('rights',res.rights);
+						uni.setStorageSync('loginInfo',res);
+						uni.setStorageSync('depName',res.depName);
+						uni.setStorageSync('depId',res.depId);
+						this.text = 'request success';
+						uni.navigateTo({
+							url: '../index/index'
+						})
+							
+					},
+					failCallBack: function(error) {
+							print('登录失败：' + error);
+					}
+				});
+				
+			},
+		},
+		onLoad() {
+			this.welocmeText = common.welocmeText;
+			this.btnLogin = common.btnLogin;
+			this.loginName = uni.getStorageSync("loginName");
+			this.passWord = uni.getStorageSync("passWord");
+			this.text = uni.getStorageSync("rights");
+		},
+
+	}
+</script>
+
+<style>
+	.tv-welcome {
+		margin-top: 200rpx;
+		font-size: 30rpx;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.v-userName {
+		height: 70rpx;
+		margin: 80rpx;
+		border-radius: 20upx;
+		border: #666666 solid 0.2upx;
+		display: flex;
+		align-content: center;
+		align-items: center;
+	}
+
+	.ic-userName {
+		height: 40rpx;
+		width: 40rpx;
+		background-image: url(../../static/username.png);
+		margin-left: 30rpx;
+	}
+
+	.ic-passWord {
+		height: 40rpx;
+		width: 40rpx;
+		background-image: url(../../static/password.png);
+		margin-left: 30rpx;
+	}
+
+	.in-text {
+		height: 70rpx;
+		width: 100%;
+		padding-left: 40rpx;
+	}
+
+	.btn-login {
+		background-color: #007AFF;
+		margin: 0 80rpx;
+		color: #FFFFFF;
+		width: 100%;
+		height: 80rpx;
+	}
+</style>

@@ -1,0 +1,351 @@
+<!-- 考勤信息查询 -->
+<template>
+	<view style="padding: 20rpx 20rpx;">
+		<view class="flex align_center justify_between" style="background-color: #FFFFFF; border-radius: 15rpx;">
+			<view class="flex flex-col padding_2">
+				<view class="flex title-font padding_2">
+					<text class="font-lb" style="width: 90rpx;">部门:</text>
+					<picker @change="selectDepartment" :range="departmentArray">
+						<view v-if="dIndex < 0" class="title-font" style="color: #808080;">请选择部门</view>
+						<view v-else class="title-font">{{departmentArray[dIndex]}}</view>
+					</picker>
+				</view>
+				<view class="flex title-font" style="padding-left: 20rpx;">
+					<view v-if="dIndex >= 0" class="flex align_center">
+					    <text class="font-lb" style="width: 90rpx;">姓名:</text>
+						<picker @change="selectPersonName" :range="personArray">
+							<view v-if="index < 0" class="title-font" style="color: #808080;">请选择姓名</view>
+							<view v-else class="title-font">{{personArray[index]}}</view>
+						</picker>
+					</view>	
+				</view>
+			</view>
+			
+			<view style="padding-right: 40rpx;">
+				<picker mode="date" fields="month"
+					    @change="bindDateChange" 
+					    style="flex-grow: 1; position:relative; width: 100%">
+					<view class="title-font" style=" text-align: right;">{{queryDate}}</view>
+				</picker>
+			</view>
+		</view>    	 
+		
+		<template v-if="length > 0">
+		    <view class="padding_2" style="background-color: #FFFFFF; margin-top: 20rpx;  border-radius: 15rpx;">
+				<view class="backgroundImage" style="width: 100%;height: 130rpx;">
+					<view class="flex align_center justify_between">
+						<view class="flex flex-col padding_2">
+							<view class="font-lb">{{attendanceDetailArray["userName"]}}</view>
+							<view style="font-size: 26rpx; color: #808080;">{{attendanceDetailArray["departName"]}}</view>
+						</view>
+						<view class="flex align_center">
+							<view class="flex flex-col">
+								<view class="font-lb">{{attendanceDetailArray["planDays"]}}</view>
+								<view style="font-size: 24rpx; color: #808080;">应出勤</view>
+							</view>
+							<view class="flex flex-col padding_2">
+								<view class="font-lb">{{attendanceDetailArray["realDays"]}}</view>
+								<view style="font-size: 24rpx; color: #808080;">实际出勤</view>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view style="width: 100%; height: 2rpx; background-color: #F5F5F5;"></view>
+				<uni-grid class="grid-view" :column="3" :show-border="false" :square="false">
+					 <uni-grid-item v-for="(item, index) in attendanceTitleArr" v-if="item" :index="index" :key="index">
+						<view class=" flex align_center" >
+							<image style="width: 30rpx; height: 30rpx;" :src="item.icon"></image>
+						    <label style="font-size: 24rpx;">{{item.title}}</label>
+							<label style="font-size: 24rpx;padding-left: 15rpx;">{{item.days}}</label>
+						</view>
+					</uni-grid-item>
+				</uni-grid>
+				<view style="height: 200rpx;"></view>
+			</view>
+		</template>
+		<!-- 无数据 -->
+		<template v-else-if="length === 0">
+			<no-content></no-content>
+		</template>
+		<template v-else="length === 0">
+			<view class="flexNo">
+				<image src="/static/attendanceNoSearch.png" style="width: 200rpx;height: 200rpx;"></image>
+				<!-- <text class="font">请求失败，请稍后再试</text> -->
+			</view>
+		</template>
+	</view>
+	
+</template>
+
+<script>
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
+	import noContent from '@/common/uni-common/no_content.vue'
+	var resquestJSOB = require('../../../common/js/hy-request.js');
+	var urlJSOB = require('../../../common/js/hy-url.js');
+	export default {
+		components:{ //注册一下
+			uniList,
+			uniListItem,
+			noContent
+		},
+		data() {
+			const currentDate = this.getDate({
+				format: true
+			})
+			return {
+				queryDate: currentDate,
+				departmentArray:[],
+				departmentDetailArray:[],
+				dIndex:-1,
+				personArray:[],
+				staffDetailArray:[],
+				index:-1,
+				attendanceTitleArr: [
+					{
+						title: "休班",
+						icon: "/static/normal.png",
+						days: ""
+					},{
+						title: "迟到(次)",
+						icon: "/static/abnormalIcon.png",
+						days: ""
+					},{
+						title: "早退(次)",
+						icon: "/static/abnormalIcon.png",
+						days: ""
+					},{
+						title: "旷工",
+						icon: "/static/abnormalIcon.png",
+						days: ""
+					},{
+						title: "事假",
+						icon: "/static/leaveIcon.png",
+						days: ""
+					},{
+						title: "产假",
+						icon: "/static/goodIcon.png",
+						days: ""
+					},{
+						title: "年休假",
+						icon: "/static/normal.png",
+						days: ""
+					},{
+						title: "婚假",
+						icon: "/static/goodIcon.png",
+						days: ""
+					},{
+						title: "丧假",
+						icon: "/static/notGoodIcon.png",
+						days: ""
+					},{
+						title: "探亲假",
+						icon: "/static/leaveIcon.png",
+						days: ""
+					},{
+						title: "工伤",
+						icon: "/static/notGoodIcon.png",
+						days: ""
+					},{
+						title: "陪产假",
+						icon: "/static/goodIcon.png",
+						days: ""
+					}
+				],
+				attendanceDetailArray:[],
+				success: false,
+				length: -1
+			}
+		},
+		onLoad(e) {
+		
+			this.getDepartmentList()
+			
+		},
+		
+		methods: {
+			
+			selectDepartment(e){
+				this.dIndex = e.target.value;
+				this.getPersonList();
+			},
+			
+			getDepartmentList(){//获取部门列表
+				var that = this;
+				resquestJSOB.sendGetRequestJson({
+					url: urlJSOB.getDepartmentListURL, 
+					data: {
+						demId: '1'
+					},
+					successCallBack: function(data) {
+						var result = data.data;
+						that.departmentDetailArray = result
+						var array = new Array()
+						for (var i = 0; i < result.length; i++) {
+							// that.departmentArray.add(result[i].title)
+							array[i] = result[i].name
+						}
+						that.departmentArray = array
+						console.log("部门数组" + array)
+						// alert(JSON.parse(array))
+						
+					},
+					failCallBack: function() {
+						
+					}
+				});
+			},
+			selectPersonName(e) {
+				this.index = e.target.value;
+				if(this.queryDate!="" && this.dIndex >= 0 && this.index >= 0){
+					this.sendGetListDataRequest()
+				}
+			},
+			getPersonList(){//获取部门下人员列表
+				var that = this;
+				var i = that.dIndex
+				resquestJSOB.sendPOSTRequestJson({
+					url: urlJSOB.getStaffUnderTheDepartmentListURL, 
+					data: {
+						position: "驾驶员",
+						flag: "1",
+						depId: that.departmentDetailArray[i].value
+					},
+					successCallBack: function(data) {
+						var result = data.data;
+						that.staffDetailArray = result
+						var array = new Array()
+						for (var i = 0; i < result.length; i++) {
+							array[i] = result[i].fullname
+						}
+						that.personArray = array
+						console.log("人员数组" + array)
+					},
+					failCallBack: function() {
+						
+					}
+				});
+			},
+			// 网络请求
+			sendGetListDataRequest() { //
+				var that = this;
+				var dIndex = that.dIndex;
+				var index = that.index;
+				var subStr = new RegExp('-','ig');
+				var queryDate = this.queryDate.replace(subStr,"");
+				
+				resquestJSOB.sendGetRequestJson({
+					url: urlJSOB.getAttendanceDetailsURL, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+					data: {
+						Q_dateTime_S_GE: queryDate,
+						Q_dateTime_S_LE: queryDate,
+						Q_departCode_S_EQ: that.departmentDetailArray[dIndex].value,
+						Q_userCode_S_EQ: that.staffDetailArray[index].userCode
+					},
+					successCallBack: function(data) {
+						var result = data.result;
+						that.success = data.success;
+						var detailArray = new Array();
+						if (result.length > 0){
+							that.length = result.length
+							console.log("进来")
+							detailArray = result[0]
+						}else{
+							that.length = 0
+						}
+						that.attendanceDetailArray = detailArray
+						console.log(that.attendanceDetailArray)
+						console.log(that.attendanceDetailArray.count)
+						if (result.length > 0){
+							
+							that.attendanceTitleArr[0].days = detailArray["holiDays"]
+							that.attendanceTitleArr[1].days = detailArray["chiDao"]
+							that.attendanceTitleArr[2].days = detailArray["zaoTui"]
+							that.attendanceTitleArr[3].days = detailArray["kuangGong"]
+							that.attendanceTitleArr[4].days = detailArray["shij"]
+							that.attendanceTitleArr[5].days = detailArray["cj"]
+							that.attendanceTitleArr[6].days = detailArray["nxj"]
+							that.attendanceTitleArr[7].days = detailArray["hj"]
+							that.attendanceTitleArr[8].days = detailArray["sangj"]
+							that.attendanceTitleArr[9].days = detailArray["tqj"]
+							that.attendanceTitleArr[10].days = detailArray["gs"]
+							that.attendanceTitleArr[11].days = detailArray["pcj"]
+						}
+						
+					},
+					failCallBack: function() {
+						
+					}
+				});
+			},
+			
+			bindDateChange: function(e) {
+				this.queryDate = e.target.value
+				if(this.queryDate!="" && this.dIndex >= 0 && this.index >= 0){
+					this.sendGetListDataRequest()
+				}
+			},
+			
+			getDate(type) {
+			    const date = new Date();
+			    let year = date.getFullYear();
+			    let month = date.getMonth() + 1;
+			    let day = date.getDate();
+			
+			    if (type === 'start') {
+			        year = year - 60;
+			    } else if (type === 'end') {
+			        year = year + 2;
+			    }
+			    month = month > 9 ? month : '0' + month;
+			    day = day > 9 ? day : '0' + day;
+			    return `${year}-${month}`;
+			}
+		}
+	}
+</script>
+
+<style>
+	page{
+		 background-color: #F5F5F5;
+	}
+	.displayMain{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.viewSet{
+		text-align: center;
+		color: #FFFFFF;
+		font-size: 25rpx;
+		padding-top: 7rpx;
+		width: 100rpx;
+		height: 40rpx;
+		border-radius: 25rpx;
+	}
+	.margin{
+		margin: 30rpx;
+	}
+	
+	.flexAndPadding{
+		display: flex;
+		padding: 10rpx 0rpx;
+	}
+	
+	.backgroundImage{
+		/* background-image: url(../../../static/attendanceBG.png); */
+	}
+	
+	.flexNo{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding-top: 250rpx;
+	}
+	.font{
+		font-size: 35rpx;
+		color: #999999;
+	}
+</style>
+

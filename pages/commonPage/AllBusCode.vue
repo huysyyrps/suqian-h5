@@ -1,0 +1,110 @@
+<!-- 所有车号 -->
+<template>
+	<view>
+		<view style="margin: 20rpx 20rpx; background-color: #FFFFFF; padding: 20rpx 30rpx; border-radius: 20rpx;">
+			<input @input="onVuleChange" style="font-size: 30rpx;"  placeholder="输入关键字" />
+		</view>
+		<uni-list>
+			<uni-list-item v-for="(item,index) in busList" :index="index" :key="index" :show-arrow="false" @click="clickListItem(item)">
+				<text style="font-size: 28rpx;">{{item.busCode}}</text>
+			</uni-list-item>
+		</uni-list>
+	</view>
+</template>
+
+<script>
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
+	var resquestJSOB = require('../../common/js/hy-request.js');
+	var urlJSOB = require('../../common/js/hy-url.js');
+	var stringUtil = require('../../common/js/hy-stringUtil.js');
+	export default {
+		data() {
+			return {
+				busList:[],
+				allBusList:[],
+				userType:"",
+				userCode:""
+			}
+		},
+		components: {
+			uniList,
+			uniListItem
+		},
+		onLoad() {
+			this.positionStatus = uni.getStorageSync("positionStatus")
+			if (this.positionStatus == "1"){
+				this.userType = "102"
+			}else{
+				this.userType = "01"
+			}
+			this.userCode = uni.getStorageSync("userCode")
+			this.sendBusCodeDataRequest()
+		},
+		methods: {
+			clickListItem(data){
+				
+				console.log(JSON.stringify(data))
+				var pages = getCurrentPages();
+				var currPage = pages[pages.length - 1]; //当前页面
+				var prevPage = pages[pages.length - 2]; //上一个页面
+				//直接调用上一个页面的setData()方法，把数据存到上一个页面中去
+				prevPage.$vm.busCode = data.busCode
+				prevPage.$vm.carNo = data.carNo
+				prevPage.$vm.isRelodData = true
+				uni.navigateBack({
+					
+				})
+				
+			},
+			// 网络请求
+			sendBusCodeDataRequest() { //
+				var that = this;
+				
+				resquestJSOB.sendGetRequestJson({
+					url: urlJSOB.getAllBusCodeURL, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+					data: { 
+						userType: this.userType,
+						userCode: this.userCode
+					},
+					successCallBack: function(res) {
+						that.busList = res.busList
+						that.allBusList = res.busList
+						
+				    },
+					failCallBack: function() {
+			
+					}
+				});
+			},
+		    onVuleChange(event) {
+			    var keyWord= event.target.value
+				this.busList = this.fuzzyQuery(keyWord)
+			},
+			fuzzyQuery(keyWord){
+				var newData = new Array()
+				var originalData = this.allBusList
+				if(keyWord===""){
+					return originalData
+				}
+				
+				for (var i = 0; i < originalData.length; i++) {
+					var obj = originalData[i]
+					if(stringUtil.testString(obj.busCode,keyWord)){
+						newData.push(obj)
+					}
+				}
+				return newData
+			},
+			
+		}
+	}
+</script>
+
+<style>
+	page{
+		 background-color: #E6E6E6;
+	}
+</style>
+
+

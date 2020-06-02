@@ -1,0 +1,89 @@
+<!-- 车辆违规详情 -->
+<template>
+	<view>
+		<scroll-view scroll-x="true" scroll-y="true" show-scrollbar="false">
+		<t-table style="width: 170%; " border="1" border-color="#f5F5F5">
+			<t-tr font-size="16" color="#00000">
+				<t-th v-for="item in titleList" 
+				      :key="item.index" style="width: 50%;" >{{item}}</t-th>
+			</t-tr>
+			<t-tr font-size="15" color="#000000" 
+			      v-for="item in detailList" :key="item.index">
+				<t-td>{{item.line}}</t-td>
+				<t-td>{{item.number}}</t-td>
+				<t-td>{{item.dirver}}</t-td>
+				<t-td>{{item.time}}</t-td>
+				<t-td>{{item.content}}</t-td>
+			</t-tr>
+		</t-table>
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	import tTable from '@/components/t-table/t-table.vue';
+	import tTh from '@/components/t-table/t-th.vue';
+	import tTr from '@/components/t-table/t-tr.vue';
+	import tTd from '@/components/t-table/t-td.vue';
+	export default {
+		components: {
+			tTable,
+			tTh,
+			tTr,
+			tTd
+		},
+		data() {
+			return {
+				titleList:[
+					"线路",
+					"车号",
+					"驾驶员",
+					"时间",
+					"违规信息"
+				],
+				detailList:[
+					{
+						line:"91",
+						number:"1010",
+						dirver:"张三",
+						time:"6:00",
+						content:"超速行驶啦啊阿拉啦阿拉啦了阿拉啦阿拉"
+					},{
+						line:"91",
+						number:"1010",
+						dirver:"张三",
+						time:"6:00",
+						content:"超速行驶啦啊阿拉啦阿拉啦了阿拉啦阿拉"
+					},{
+						line:"91",
+						number:"1010",
+						dirver:"张三",
+						time:"6:00",
+						content:"超速行驶啦啊阿拉啦阿拉啦了阿拉啦阿拉"
+					},{
+						line:"91",
+						number:"1010",
+						dirver:"张三",
+						time:"6:00",
+						content:"超速行驶啦啊阿拉啦阿拉啦了阿拉啦阿拉"
+					},{
+						line:"91",
+						number:"1010",
+						dirver:"张三",
+						time:"6:00",
+						content:"超速行驶啦啊阿拉啦阿拉啦了阿拉啦阿拉"
+					},{
+						line:"91",
+						number:"1010",
+						dirver:"张三",
+						time:"6:00",
+						content:"超速行驶啦啊阿拉啦阿拉啦了阿拉啦阿拉"
+					}
+				]
+			}
+		}
+	}
+</script>
+
+<style>
+</style>

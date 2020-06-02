@@ -1,0 +1,587 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// {
+		// 	"path": "pages/login/login",
+		// 	"style": {
+		// 		"navigationBarTitleText": "登录"
+		// 	}
+		// },
+		{
+			"path": "pages/flow/flowIndex/flowIndex",
+			"style": {
+				"navigationBarTitleText": "流程"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "综合管理系统"
+			}
+		},{
+			"path": "pages/logisticsTrack/PatternTwo",
+			"style": {
+				"navigationBarTitleText": "模式二"
+			}
+		},{
+			"path": "pages/flow/flowitem/flowitem",
+			"style": {
+				"navigationBarTitleText": "发起申请"
+			}
+		}, {
+			"path": "pages/flow/myflowwill/myflowwill",
+			"style": {
+				"navigationBarTitleText": "我的待办"
+			}
+		}, {
+			"path": "pages/flow/overFlow/overFlow",
+			"style" : {
+				"app-plus":{"titleNView":false}
+			}
+		},{
+			"path": "pages/flow/flowitem/flowitem",
+			"style": {
+				"navigationBarTitleText": "公务用车申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/userCarFlow/userCarFlow",
+			"style": {
+				"navigationBarTitleText": "公务用车申请表"
+			}
+		}, {
+			"path": "pages/constant/personnel/personnel",
+			"style": {"navigationBarTitleText": "人员列表"}
+		}, {
+			"path": "pages/constant/carno/carno",
+			"style": {
+				"navigationBarTitleText": "车辆列表"
+			}
+		}, {
+			"path": "pages/flow/myflowwill/myWillFlowList",
+			"style" : {
+				"app-plus":{"titleNView":false}
+			}
+		},
+		{
+			"path": "pages/flow/flowitem/overflow/userCarFlow/userCarFlowWillDetail",
+			"style": {
+				"navigationBarTitleText": "公务用车申请表"
+			}
+		},
+		{
+			"path": "pages/flow/flowitem/overflow/userCarFlow/userCarFlowDetail",
+			"style": {
+				"navigationBarTitleText": "公务用车申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/maintainCar/maintainCar",
+			"style": {
+				"navigationBarTitleText": "车辆维修审批单（小车）"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/maintainCar/maintainCarDetail",
+			"style": {
+				"navigationBarTitleText": "车辆维修审批单（小车）"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/maintainCar/maintainCarWillDetail",
+			"style": {
+				"navigationBarTitleText": "车辆维修审批单（小车）"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/reception/reception",
+			"style": {
+				"navigationBarTitleText": "公务接待申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/reception/receptionDetail",
+			"style": {
+				"navigationBarTitleText": "公务接待申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/reception/receptionWillDetail",
+			"style": {
+				"navigationBarTitleText": "公务接待申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/receptionDining/receptionDining",
+			"style": {
+				"navigationBarTitleText": "公务用餐申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/receptionDining/receptionDiningDetail",
+			"style": {
+				"navigationBarTitleText": "公务用餐申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/receptionDining/receptionDiningWillDetail",
+			"style": {
+				"navigationBarTitleText": "公务用餐申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/assetPurchase/assetPurchase",
+			"style": {
+				"navigationBarTitleText": "固定资产采购申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/assetPurchase/assetPurchaseDetail",
+			"style": {
+				"navigationBarTitleText": "固定资产采购申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/assetPurchase/assetPurchaseWillDetail",
+			"style": {
+				"navigationBarTitleText": "固定资产采购申请表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/assetDisposal/assetDisposal",
+			"style": {
+				"navigationBarTitleText": "固定资产处置审批表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/assetDisposal/assetDisposalDetail",
+			"style": {
+				"navigationBarTitleText": "固定资产处置审批表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/assetDisposal/assetDisposalWillDetail",
+			"style": {
+				"navigationBarTitleText": "固定资产处置审批表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/contractSigning/contractSigning",
+			"style": {
+				"navigationBarTitleText": "合同审批表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/contractSigning/contractSigningDetail",
+			"style": {
+				"navigationBarTitleText": "合同审批表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/contractSigning/contractSigningWillDetail",
+			"style": {
+				"navigationBarTitleText": "合同审批表"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/mettingHome/mettingHome",
+			"style": {
+				"navigationBarTitleText": "会议室使用申请单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/mettingHome/mettingHomeDetail",
+			"style": {
+				"navigationBarTitleText": "会议室使用申请单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/mettingHome/mettingHomeWillDetail",
+			"style": {
+				"navigationBarTitleText": "会议室使用申请单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/mettingLeaver/mettingLeaver",
+			"style": {
+				"navigationBarTitleText": "会议(活动)请假报备单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/mettingLeaver/mettingLeaverDetail",
+			"style": {
+				"navigationBarTitleText": "会议(活动)请假报备单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/mettingLeaver/mettingLeaverWillDetail",
+			"style": {
+				"navigationBarTitleText": "会议(活动)请假报备单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/workPuechase/workPuechase",
+			"style": {
+				"navigationBarTitleText": "办公用品申购单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/workPuechase/workPuechaseDetail",
+			"style": {
+				"navigationBarTitleText": "办公用品申购单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/workPuechase/workPuechaseWillDetail",
+			"style": {
+				"navigationBarTitleText": "办公用品申购单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/signature/signature",
+			"style": {
+				"navigationBarTitleText": "签呈单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/signature/signatureDetail",
+			"style": {
+				"navigationBarTitleText": "签呈单"
+			}
+		}, {
+			"path": "pages/flow/flowitem/overflow/signature/signatureWillDetail",
+			"style": {
+				"navigationBarTitleText": "签呈单"
+			}
+		},{
+			"path": "pages/Operational_Indicators/Operational_Indicators/Operational_Indicators",
+			"style": {
+				"navigationBarTitleText": "运营指标监控"
+			}
+		},{
+			"path": "pages/Operational_Indicators/Vehicle_Alarm/Vehicle_Alarm",
+			"style": {
+				"navigationBarTitleText": "报警信息"
+			}
+		},{
+			"path": "pages/Operational_Indicators/Vehicle_Alarm/Vehicle_Alarm_Detail",
+			"style": {
+				"navigationBarTitleText": "报警信息"
+			}
+		},{
+			"path": "pages/Operational_Indicators/CompletionOrPunctuality_Rate/CompletionOrPunctuality_Rate",
+			"style": {
+				"navigationBarTitleText": "完成、准点率"
+			}
+		},{
+			"path": "pages/Operational_Indicators/CompletionOrPunctuality_Rate/CompletionOrPunctuality_Rate_Detail",
+			"style": {
+				"navigationBarTitleText": "完成、准点率"
+			}
+		},
+		{
+			"path": "pages/Information_Search/Information_Search/Information_Search",
+			"style": {
+				"navigationBarTitleText": "信息查询"
+			}
+		},{
+			"path": "pages/Information_Search/Violation_Information_Search/Violation_Information_Search",
+			"style": {
+				"navigationBarTitleText": "违规信息"
+			}
+		},{
+			"path": "pages/Information_Search/Violation_Information_Search/Violation_Information_Search_List",
+			"style": {
+				"navigationBarTitleText": "违规信息"
+			}
+		},{
+			"path": "pages/Information_Search/Violation_Information_Search/Violation_Information_Search_List_Detail",
+			"style": {
+				"navigationBarTitleText": "违规信息"
+			}
+		},{
+			"path": "pages/Information_Search/Mileage_Query_Search/Mileage_Query_Search",
+			"style": {
+				"navigationBarTitleText": "里程查询"
+			}
+		},{
+			"path": "pages/Information_Search/Mileage_Query_Search/Mileage_Query_Search_Detail",
+			"style": {
+				"navigationBarTitleText": "里程详情"
+			}
+		},{
+			"path": "pages/Information_Search/Trains_Search/Trains_Search",
+			"style": {
+				"navigationBarTitleText": "车次查询"
+			}
+		},{
+			"path": "pages/Information_Search/Trains_Search/Trains_Search_Detail",
+			"style": {
+				"navigationBarTitleText": "车次查询"
+			}
+		},{
+			"path": "pages/Information_Search/ShiftArrangement_Search/ShiftArrangement_Search",
+			"style": {
+				"navigationBarTitleText": "配班查询"
+			}
+		},{
+			"path": "pages/Information_Search/ShiftArrangement_Search/ShiftArrangement_Search_Detail",
+			"style": {
+				"navigationBarTitleText": "配班详情"
+			}
+		},{
+			"path": "pages/Attendance/Attendance/myAttendance",
+			"style": {
+				"navigationBarTitleText": "我的考勤"
+				
+			}
+		},
+		{
+			"path": "pages/Attendance/Attendance/signature",
+			"style": {
+				"navigationBarTitleText": "补签"
+				
+			}
+		},{
+			"path": "pages/Attendance/Attendance/AttendanceSearch",
+			"style": {
+				"navigationBarTitleText": "考勤信息",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "补签",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "17px"
+						}]
+					}
+				}
+			}
+		},{
+			"path": "pages/Parking_Information_Query/Parking_Information_Query/Parking_Information_Query",
+			"style": {
+				"navigationBarTitleText": "停车信息"
+			}
+		},{
+			"path": "pages/Parking_Information_Query/Parking_Information_Query/Parking_Information_Query_Detail",
+			"style": {
+				"navigationBarTitleText": "停车信息"
+			}
+		},{//所有线路
+			"path": "pages/commonPage/LinesByOperator",
+			"style": {
+				"navigationBarTitleText": "线路"
+			}
+		},{//所有车号
+			"path": "pages/commonPage/AllBusCode",
+			"style": {
+				"navigationBarTitleText": "车号"
+			}
+		},{//所有司机
+			"path": "pages/commonPage/AllDriveName",
+			"style": {
+				"navigationBarTitleText": "驾驶员"
+			}
+		},{//公交线路
+			"path": "pages/BusLine_Map/BusLine/BusLine",
+			"style": {
+				"navigationBarTitleText": "查询线路"
+			}
+		},{//公交站点
+			"path": "pages/BusLine_Map/BusLine/BusLineStation",
+			"style": {
+				"navigationBarTitleText": "查询线路"
+			}
+		},
+		{//公交站点
+			"path": "pages/map/map",
+			"style": {
+				"navigationBarTitleText": "地图"
+			}
+		},
+		{//发送调度令
+			"path": "pages/Dispatching/StartCar",
+			"style": {
+				"navigationBarTitleText": "发送发车指令"
+			}
+		},
+		{
+			"path": "pages/logisticsTrack/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "地图",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "18px"
+						}]
+					}
+				}
+			}
+		},
+		
+		{
+			"path": "pages/Dispatching/Addcar",
+			"style": {
+				"navigationBarTitleText": "新增车次"
+				
+			}
+		},
+		{
+			"path": "pages/Dispatching/sendmessage",
+			"style": {
+				"navigationBarTitleText": "发送信息"
+				
+			}
+		},
+		{
+			"path": "pages/Dispatching/Modificationcar",
+			"style": {
+				"navigationBarTitleText": "修改车次"
+				
+			}
+		},
+		{
+			"path": "pages/Dispatching/Interval",
+			"style": {
+				"navigationBarTitleText": "调整间隔"
+				
+			}
+		},
+		{
+			"path": "pages/Message/Abnormal",
+			"style": {
+				"navigationBarTitleText": "运营异常信息"
+				
+			}
+		},
+		{
+			"path": "pages/Message/AbnormalList",
+			"style": {
+				"navigationBarTitleText": "运营异常信息"
+				
+			}
+		},
+		{
+			"path": "pages/Message/weixiu",
+			"style": {
+				"navigationBarTitleText": "请求维修"
+				
+			}
+		},
+		{
+			"path": "pages/Message/baoche",
+			"style": {
+				"navigationBarTitleText": "请求包车"
+				
+			}
+		},
+		{
+			"path": "pages/Dispatching/Lesscar",
+			"style": {
+				"navigationBarTitleText": "减车"
+				
+			}
+		},
+		{
+			"path": "pages/Dispatching/StationList",
+			"style": {
+				"navigationBarTitleText": "站点列表"
+				
+			}
+		},
+		{
+			"path": "pages/Dispatching/Timeinterval",
+			"style": {
+				"navigationBarTitleText": "时间间隔"
+				
+			}
+		},
+		
+		{
+			"path": "pages/Message/GetgasList",
+			"style": {
+				"navigationBarTitleText": "违规信息"
+			}
+		},
+		{
+			"path": "pages/Message/Getgas",
+			"style": {
+				"navigationBarTitleText": "违规信息处理"
+			}
+		},
+		{
+			"path": "pages/Message/CentralInformation",
+			"style": {
+				"navigationBarTitleText": "中心信息"
+			}
+		},{
+			"path": "pages/Message/CentralInformationDeal",
+			"style": {
+				"navigationBarTitleText": "中心信息处理"
+			}
+		},{
+			"path": "pages/Message/fuelupRequest",
+			"style": {
+				"navigationBarTitleText": "请求处理"
+			}
+		},{
+			"path": "pages/Message/fuelupRequestDeal",
+			"style": {
+				"navigationBarTitleText": "请求处理"
+			}
+		},
+		{
+			"path": "pages/Message/InformationCenter",
+			"style": {
+				"navigationBarTitleText": "消息中心"
+			}
+		},
+		{
+			"path": "pages/Message/InformationCenterdiaodu",
+			"style": {
+				"navigationBarTitleText": "调度消息中心"
+			}
+        },{
+            "path" : "pages/Me/Me",
+            "style" : {"navigationBarTitleText": "个人中心"}
+        },{
+            "path" : "pages/flow/flowitem/overflow/workLeaveFlow/workLeaveFlow",
+            "style" : {"navigationBarTitleText": "职工请假单"}
+        },{
+            "path" : "pages/flow/flowitem/overflow/workLeaveFlow/workLeaverFlowDetail",
+            "style" : {"navigationBarTitleText": "职工请假单"}
+        },{
+            "path" : "pages/flow/flowitem/overflow/workLeaveFlow/workLeaverFlowWillDetail",
+            "style" : {"navigationBarTitleText": "职工请假单"}
+        },{
+            "path" : "pages/map/map",
+            "style" : {"navigationBarTitleText": "地图"}
+        }
+        ,{
+            "path" : "pages/flow/flowitem/overflow/driverLeaveFlow/driverLeaveFlow",
+            "style" : {
+            	"app-plus":{"titleNView":false}
+            }
+        },{
+            "path" : "pages/flow/flowitem/overflow/driverLeaveFlow/driverLeaverFlowHistory",
+            "style" : {"navigationBarTitleText": "请假历史"}
+        },{
+            "path" : "pages/flow/flowitem/overflow/driverLeaveFlow/driverLeaveFlowHistoryChange",
+            "style" : {"navigationBarTitleText": "请假修改"}
+        }
+        ,{
+            "path" : "pages/mailList/mailList",
+            "style" : {
+				"navigationBarTitleText":"通讯录"
+			}
+        }
+        ,{
+            "path" : "pages/clockIn/clockIn",
+            "style" : {
+				"navigationBarTitleText":"打卡"
+			}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#007AFF"
+	},
+	"tabBar": {
+			"color":"#515151",
+			"selectedColor":"#007AFF",
+			"borderStyle":"black",
+			"backgroundColor":"#ffffff",
+			"list": [
+				{
+					"pagePath":"pages/index/index",
+					"text":"首页",
+					"iconPath":"static/tabbar/home_normal.png",
+					"selectedIconPath":"static/tabbar/home_select.png"
+				},
+				{
+					"pagePath":"pages/flow/flowIndex/flowIndex",
+					"text":"流程",
+					"iconPath":"static/tabbar/flow_normal.png",
+					"selectedIconPath":"static/tabbar/flow_select.png"
+				},
+				{
+					"pagePath":"pages/Me/Me",
+					"text":"我的",
+					"iconPath":"static/tabbar/me_normal.png",
+					"selectedIconPath":"static/tabbar/me_select.png"
+				}
+			]	
+		}
+}

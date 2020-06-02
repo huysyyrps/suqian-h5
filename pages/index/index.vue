@@ -1,0 +1,427 @@
+<template>
+	<view class="content">
+		<view class="backgroundImage">宿迁公交欢迎您</view>
+		<view v-for="(item, index) in funcModulesArray" :key="index" v-if="item.show">
+			<uni-section :title="item.title" class="title-font" style="background-color: #F5F5F5;margin-top: 0px;"></uni-section>
+			<uni-grid class="grid-view" :column="3" :show-border="false" :square="false">
+				 <uni-grid-item  v-for="(subItem, subIndex) in item.funcModules" :index="subIndex" :key="subIndex" v-if="subItem.show"  >
+					<view class="item-content-view" @click.native="clickAccidentReporting(subItem)">
+						<image :src="subItem.imgUrl"></image>
+					    <label class="title-font">{{subItem.title}}</label>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+		</view>
+	</view>
+</template>
+
+<script>
+	import uniSection from '@/components/uni-section/uni-section.vue'
+	import uniGrid from '@/components/uni-grid/uni-grid.vue'
+	import uniGridItem from '@/components/uni-grid-item/uni-grid-item.vue'
+	export default {
+		components: {
+			uniSection,
+			uniGrid,
+			uniGridItem
+		},
+		data() {
+			return {
+				positionStatus: "",
+				funcModulesArray:[]
+			}
+		},
+		onShow() {
+			console.log("onShow(options)")
+		},
+		onLoad(options) {
+			// alert("2")
+			console.log("onLoad(options)")
+			if (options.userName != ""){
+				console.log(options.userName)
+				uni.setStorageSync('userName',options.userName);
+			}
+			if (options.userId != ""){
+				uni.setStorageSync('userId',options.userId);
+			}
+			if (options.userCode != ""){
+				uni.setStorageSync('userCode',options.userCode);
+			}
+			if (options.userName != ""){
+				uni.setStorageSync('roleName',options.roleName);
+			}
+			if (options.depName != ""){
+				console.log(options.depName)
+				uni.setStorageSync('depName',options.depName);
+			}
+			if (options.depId != ""){
+				uni.setStorageSync('depId',options.depId);
+			}
+			if (options.positionStatus != ""){
+				uni.setStorageSync('positionStatus',options.positionStatus);
+			}
+// <<<<<<< .mine
+// 			options.positionStatus = 0//uni.getStorageSync('positionStatus');
+// ||||||| .r73735
+// 			this.positionStatus = 1//uni.getStorageSync('positionStatus');
+// =======
+			this.positionStatus = uni.getStorageSync('positionStatus');
+
+			// this.permissionSettings()
+			if(options.positionStatus == 0){
+			    this.funcModulesArray=[
+					{
+						title:"办公",
+						show:true,
+						funcModules:[//功能模块
+							{
+								title:"事故上报",
+								imgUrl:"/static/accidentReporting.png",
+								pageUrl:"",
+								tag:"10011",
+								flag:true,
+								show:true
+							},{
+								title:"车辆维修",
+								imgUrl:"/static/vehicle_maintenance.png",
+								pageUrl: "../Message/InformationCenter",
+								tag:"10013",
+								flag:true,
+								show:true
+							},{
+								title: "考勤",
+								imgUrl:"/static/attendanceIcon.png",
+								pageUrl: "../Attendance/Attendance/AttendanceSearch",
+								tag:"10010",
+								flag:false,
+								show:true
+							},{
+								title: "通讯录",
+								imgUrl:"/static/tongxulu.png",
+								pageUrl: "../mailList/mailList",
+								tag:"10014",
+								flag:true,
+								show:true
+							},{
+								title: "打卡",
+								imgUrl:"/static/qiandao.png",
+								pageUrl: "../clockIn/clockIn",
+								tag:"10014",
+								flag:true,
+								show:true
+							}
+						]
+					}
+				]
+			}else if (options.positionStatus == 1){
+				this.funcModulesArray=[
+					{
+						title:"运营指标",
+						show:true,
+						funcModules:[//功能模块
+							// {
+							// 	title:"车辆违规",
+							// 	imgUrl:"/static/violationIcon.png",
+							// 	pageUrl:"../Information_Search/Violation_Information_Search/Violation_Information_Search",
+							// 	tag:"10001",
+							// 	flag:false,
+							// 	show:false
+							// },
+							// {
+							// 	title:"车辆报警",
+							// 	imgUrl:"/static/warnIcon.png",
+							// 	pageUrl:"../Operational_Indicators/Vehicle_Alarm/Vehicle_Alarm",
+							// 	tag:"10002",
+							// 	flag:false,
+							// 	show:false
+								
+							// },
+							// {
+							// 	title:"调度工作台",
+							// 	imgUrl:"/static/lineIcon.png",
+							// 	pageUrl:"../BusLine_Map/BusLine/BusLine",
+							// 	tag:"10003",
+							// 	flag:false,
+							// 	show:false
+							// },
+							{
+								title:"停车信息",
+								imgUrl:"/static/parkingIcon.png",
+								pageUrl:"../Parking_Information_Query/Parking_Information_Query/Parking_Information_Query",
+								tag:"10004",
+								flag:true,
+								show:true
+							},
+							// {
+							// 	title:"完成、准点率",
+							// 	imgUrl:"/static/comOrPunRateIcon.png",
+							// 	pageUrl:"../Operational_Indicators/CompletionOrPunctuality_Rate/CompletionOrPunctuality_Rate",
+							// 	tag:"10005",
+							// 	flag:false,
+							// 	show:false
+							// },
+							{
+								title:"事故上报",
+								imgUrl:"/static/accidentReporting.png",
+								pageUrl:"",
+								tag:"10011",
+								flag:true,
+								show:true
+							}
+						]
+					},{
+						title:"信息查询",
+						show:true,
+						funcModules:[//功能模块
+							{
+								title:"里程查询",
+								imgUrl:"/static/mileageIcon.png",
+								pageUrl:"../Information_Search/Mileage_Query_Search/Mileage_Query_Search",
+								tag:"10006",
+								flag:true,
+								show:true
+							},
+							// {
+							// 	title:"车次查询",
+							// 	imgUrl:"/static/busIcon.png",
+							// 	pageUrl:"../Information_Search/Trains_Search/Trains_Search",
+							// 	tag:"10007",
+							// 	flag:false,
+							// 	show:false
+							// },
+							{
+								title:"配车排班",
+								imgUrl:"/static/tripsIcon.png",
+								pageUrl:"../Information_Search/ShiftArrangement_Search/ShiftArrangement_Search",
+								tag:"10008",
+								flag:true,
+								show:true
+							},
+							// {
+							// 	title:"信息中心",
+							// 	imgUrl:"/static/messageCenter.png",
+							// 	pageUrl: "../Message/InformationCenter",
+							// 	tag:"10009",
+							// 	flag:false,
+							// 	show:true
+							// },
+							{
+								title:"车辆维修",
+								imgUrl:"/static/vehicle_maintenance.png",
+								pageUrl: "../Message/InformationCenter",
+								tag:"10013",
+								flag:true,
+								show:true
+							}
+						]
+					},{
+						title:"考勤信息",
+						show:true,
+						funcModules:[//功能模块
+							{
+								title:"我的考勤",
+								imgUrl:"/static/myAttendance.png",
+								pageUrl: "../Attendance/Attendance/myAttendance",
+								tag:"10012",
+								flag:true,
+								show:true
+							}
+							// ,{
+							// 	title: "考勤",
+							// 	imgUrl:"/static/attendanceIcon.png",
+							// 	pageUrl: "../Attendance/Attendance/AttendanceSearch",
+							// 	tag:"10010",
+							// 	flag:false,
+							// 	show:false
+							// }
+							
+						]
+					}
+				]
+							
+			}else if (options.positionStatus == 2){
+				this.funcModulesArray=[
+					{
+						title:"运营指标",
+						show:true,
+						funcModules:[//功能模块
+							{
+								title:"车辆违规",
+								imgUrl:"/static/violationIcon.png",
+								pageUrl:"../Information_Search/Violation_Information_Search/Violation_Information_Search",
+								tag:"10001",
+								flag:false,
+								show:true
+							},
+							{
+								title:"车辆报警",
+								imgUrl:"/static/warnIcon.png",
+								pageUrl:"../Operational_Indicators/Vehicle_Alarm/Vehicle_Alarm",
+								tag:"10002",
+								flag:false,
+								show:true
+							},
+							{
+								title:"调度工作台",
+								imgUrl:"/static/lineIcon.png",
+								pageUrl:"../BusLine_Map/BusLine/BusLine",
+								tag:"10003",
+								flag:false,
+								show:true
+							},
+							{
+								title:"停车信息",
+								imgUrl:"/static/parkingIcon.png",
+								pageUrl:"../Parking_Information_Query/Parking_Information_Query/Parking_Information_Query",
+								tag:"10004",
+								flag:true,
+								show:true
+							},
+							{
+								title:"完成、准点率",
+								imgUrl:"/static/comOrPunRateIcon.png",
+								pageUrl:"../Operational_Indicators/CompletionOrPunctuality_Rate/CompletionOrPunctuality_Rate",
+								tag:"10005",
+								flag:false,
+								show:true
+							},
+							{
+								title:"事故上报",
+								imgUrl:"/static/accidentReporting.png",
+								pageUrl:"",
+								tag:"10011",
+								flag:true,
+								show:true
+							}
+						]
+					},{
+						title:"信息查询",
+						show:true,
+						funcModules:[//功能模块
+							{
+								title:"里程查询",
+								imgUrl:"/static/mileageIcon.png",
+								pageUrl:"../Information_Search/Mileage_Query_Search/Mileage_Query_Search",
+								tag:"10006",
+								flag:true,
+								show:true
+							},
+							{
+								title:"车次查询",
+								imgUrl:"/static/busIcon.png",
+								pageUrl:"../Information_Search/Trains_Search/Trains_Search",
+								tag:"10007",
+								flag:false,
+								show:true
+							},
+							{
+								title:"配车排班",
+								imgUrl:"/static/tripsIcon.png",
+								pageUrl:"../Information_Search/ShiftArrangement_Search/ShiftArrangement_Search",
+								tag:"10008",
+								flag:true,
+								show:true
+							},{
+								title:"信息中心",
+								imgUrl:"/static/messageCenter.png",
+								pageUrl: "../Message/InformationCenter",
+								tag:"10009",
+								flag:false,
+								show:true
+							},{
+								title:"车辆维修",
+								imgUrl:"/static/vehicle_maintenance.png",
+								pageUrl: "../Message/InformationCenter",
+								tag:"10013",
+								flag:true,
+								show:true
+							}
+						]
+					},{
+						title:"考勤信息",
+						show:true,
+						funcModules:[//功能模块
+							{
+								title:"我的考勤",
+								imgUrl:"/static/myAttendance.png",
+								pageUrl: "../Attendance/Attendance/myAttendance",
+								tag:"10012",
+								flag:true,
+								show:true
+							},{
+								title: "考勤",
+								imgUrl:"/static/attendanceIcon.png",
+								pageUrl: "../Attendance/Attendance/AttendanceSearch",
+								tag:"10010",
+								flag:false,
+								show:true
+							}
+						]
+					}
+				]			
+			}
+		},
+         
+		methods: {
+			permissionSettings() {
+				if (this.positionStatus == "1"){
+					for (let i in funcModulesArray){
+						let funcModules = funcModulesArray[i].funcModules
+						for (let j in funcModules){
+						    if (i == 0){
+								if (j == 0 || j == 1 || j == 2 || j == 4){
+									funcModules[j].show = false
+								}
+							}
+							if (i == 1){
+								if (j == 1 || j == 3){
+									funcModules[j].show = false
+								}
+							}
+							if (i == 2){
+								if (j == 1){
+									funcModules[j].show = false
+								}
+							}
+						}
+					}
+				}
+			},
+			clickAccidentReporting(item){
+				let tag = item["tag"];
+				let pageUrl = item["pageUrl"];	
+				
+				if (tag == 10011){
+					let data = item
+					// window.webkit.messageHandlers.pushToAccidentReportingVC.postMessage(data);
+					// app.pushToAccidentReportingVC(data)
+					if(app!=null){
+						app.pushToAccidentReportingVC()
+					}
+				}else if(tag == 10013){//
+					if(app!=null){
+						app.pushVehicleMaintenance()
+					}
+				}else{
+					// alert(pageUrl)
+					uni.navigateTo({
+						url:pageUrl
+					})
+				}
+				
+			}			
+		}
+	}
+</script>
+
+<style>
+    .backgroundImage{
+    	background-image: url(../../static/me_background.png);
+    	width: 100%;
+    	height: 250rpx;
+		color: #FFFFFF;
+		font-size: 50rpx;
+		text-align: center;
+		padding: 60rpx;
+    }
+</style>

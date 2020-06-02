@@ -1,0 +1,149 @@
+<!-- 车辆违规 -->
+<template>
+	<view>
+		<uni-list class="padding_2">
+			<uni-list-item :show-arrow="false" class="flex">
+				<view class="displayMain">
+					<view class="displayMain">
+						<picker mode="date" 
+						        @change="bindStartDateChange_alarm" 
+								style="flex-grow: 1; position:relative;" >
+							<input class="title-font" placeholder="开始时间" 
+							       :value="startDate_alarm" 
+								   type="text" />
+						</picker>
+						<view style="width: 50%; height: 1rpx; background-color: #EBEBEB;"></view>
+						<picker mode="date" 
+						        @change="bindEndDateChange_alarm" 
+								style="flex-grow: 1; position:relative;">
+							<input class="title-font" style="text-align: right;" placeholder="结束时间"
+							       :value="endDate_alarm" 
+								   type="text" />
+						</picker>
+					</view> 
+				</view>
+			</uni-list-item>
+		</uni-list>
+		<view class="padding_2 title-font" style="background-color: #EBEBEB;">{{selectMethods}}</view>
+		<view class="flex align_center justify_between">
+			<view v-for="(item, index) in selectMethodArr" :key="index" @click="selectMethodChange(index)" style="width: 100%;">
+				<view v-if="item.selected === true"
+				      style="background-color: #007AFF; color: #FFFFFF;" 
+					  class=" content_view">{{item.title}}</view> 
+				<view v-else-if="item.selected === false"
+					  class=" content_view">{{item.title}}</view>
+			</view>
+		
+		</view>
+		<view class="flex align_center padding_2" style=" margin-left: 40rpx;" v-if="selectMethodDic.selected === true">
+			<text style="width: 140rpx;height: 100%;">{{selectMethodDic.title}}:</text>
+			<input style="height: 100%;" @input="valueChange" placeholder="请选择" :value="selectText" type="text" />
+		</view>
+		<view class="searchBtn title-font" @click="searchClick">查询</view>
+		
+	</view>
+</template>
+
+<script>
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
+	import uniGrid from '@/components/uni-grid/uni-grid.vue'
+	import uniGridItem from '@/components/uni-grid-item/uni-grid-item.vue'
+	import hyDate from '@/common/js/hy-date.js'
+	export default {
+		components: {
+			uniGrid,
+			uniGridItem,
+			uniList,
+			uniListItem,
+			hyDate,
+		},
+		data() {
+			const currentDate = hyDate.getDate({
+				format: true
+			})
+			return {
+				startDate_alarm: currentDate,
+				endDate_alarm: currentDate,
+				selectMethods: "请选择查询方式",
+				selectText: "",
+				selectMethodArr:[
+					{
+						show:true,
+						title:"线路",
+						selected:false,
+					},{
+						show:true,
+						title:"司机",
+						selected:false
+					},{
+						show:true,
+						title:"车号",
+						selected:false
+				    }
+				],
+				selectMethodDic:{ }
+			}
+		},
+		
+		methods: {
+			
+	    	searchClick(e) {
+				uni.navigateTo({
+					// ?alarm_Detail_Data=" + encodeURIComponent(alarm_Detail_Data)
+					url: "./Vehicle_Violation_Detail" 
+				})
+			},
+			
+			bindStartDateChange_alarm: function(e) {
+				this.startDate_alarm = e.target.value
+			},
+			bindEndDateChange_alarm: function(e) {
+				this.endDate_alarm = e.target.value
+			},
+			
+			valueChange(event) {
+			    
+			},
+			
+			selectMethodChange(index){
+				for (let i = 0; i < this.selectMethodArr.length; i++) {
+					if (i === index){
+						this.selectMethodArr[i].selected = true
+					}else{
+						this.selectMethodArr[i].selected = false
+					}
+				}
+				this.selectMethodDic = this.selectMethodArr[index]
+			}
+		}
+	}
+</script>
+
+<style>
+	
+	.displayMain{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	
+	.date_alarm{
+		width:100%;
+		height: 100%;  
+		background-color:#FFFFFF; 
+		position: absolute;
+	}
+	
+	.content_view {
+		/* width: 80%; */
+		height: 50%;
+		text-align: center; 
+		padding-top: 10rpx;
+		padding-bottom: 10rpx;
+		margin: 10%;
+		
+	}
+	
+</style>
+

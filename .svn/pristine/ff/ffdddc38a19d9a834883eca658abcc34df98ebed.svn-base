@@ -1,0 +1,110 @@
+<template>
+	<view class="padding_2">
+		<view class="flex align-center justify-between padding_2"
+		      style="background-color: #FFFFFF; border-radius: 16rpx;">
+			<view class="flex flex-col">
+				<view class="flex align-center ">
+					<view class="widthV lgFont">车牌号：</view>
+					<view class="lgFont">{{listItem.carNo}}</view>
+				</view>
+				<view class="flex align-center">
+					<view class="widthV lgFont">驾驶员：</view>
+					<view class="lgFont">{{listItem.driverName}}</view>
+				</view>
+				<view class="flex align-center">
+					<view class="widthV lgFont">线路：</view>
+					<view class="lgFont">{{listItem.lineCode}}</view>
+				</view>
+			</view>
+			<!-- <view class="redColor lgFont">{{item.projectUsingName}}</view> -->
+		</view>
+		<template v-if="listDetailData.length > 0">
+		    <uni-list style="margin-top: 20rpx;  border-radius: 16rpx;">
+		    	<uni-list-item v-for="(item, index) in listDetailData" :index="index" :key="index" :show-arrow="false">
+		    		<view class="flex align-center justify-between">
+		    			<text class="title-text">{{item.projectName}}</text>
+		    			<!-- <text class="content-text">{{item.state === "1" ? "合格" : "不合格"}}</text> -->
+						<text v-if="item.state === '1'" style="color: #333333;">合格</text>
+						<text v-else-if="item.state === '0'" style="color: #DC3545;">不合格</text>
+		    		</view>
+		    	</uni-list-item>
+		    </uni-list>
+		</template>
+		<!-- 无数据 -->
+		<template v-else>
+			<no-content></no-content>
+		</template>
+	</view>
+</template>
+
+<script>
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
+	var resquestJSOB = require('../../../common/js/hy-request.js');
+	var urlJSOB = require('../../../common/js/hy-url.js');
+	export default {
+		components: {
+			uniList,
+			uniListItem
+		},
+		data() {
+			return {
+				listItem: {},
+				listDetailData: []
+			}
+		},
+		onLoad(option) {
+			let item = option.listItem
+			console.log(item)
+			this.listItem = JSON.parse(item)
+			this.sendGetListDetailDataRequest()
+		},
+		methods: {
+			// 网络请求
+			sendGetListDetailDataRequest() { //OA信息数量
+				var that = this;
+				resquestJSOB.sendGetRequestJson({
+					url: urlJSOB.getViolationInforListDetailURL, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+					data: {
+						id: that.listItem.id
+					},
+					successCallBack: function(data) {
+						var result = data.result;
+						that.listDetailData = result
+						console.log(that.listDetailData)
+					},
+					failCallBack: function() {
+						
+					}
+				});
+			},
+		}
+	}
+</script>
+
+<style>
+	page {
+		background-color: #F5F5F5;
+	}
+   .widthV{
+   	width: 140rpx;
+   }
+   .lgFont{
+   	font-size: 33rpx;
+   }
+   .grayColor{
+   	color: #8F8F94;
+   	font-size: 25rpx;
+   }
+   .redColor{
+   	color: #BD2130;
+   }
+	.title-text {
+		font-size: 30rpx;
+		color: #000000;
+	}
+
+	.content-text {
+		font-size: 28rpx;
+	}
+</style>

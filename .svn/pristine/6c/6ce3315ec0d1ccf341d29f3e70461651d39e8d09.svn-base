@@ -1,0 +1,107 @@
+
+// var base = "http://192.168.3.72:8088/sdhyscheduleSQ/"
+
+
+var base = "http://221.6.253.254:8072/joffice/";
+// var base = "http://192.168.3.141:8080/jofficeSq/";//孙琪
+// var base = "http://192.168.3.150:8080/jofficeSq/";//川川
+var login = base + "mobile.do"; //登录
+var carno = base + "admin/getBusStoreCar.do"; //车牌号
+var person = base + "hrm/profileByPosEmpProfile.do"// 选择驾驶员
+var upflowline = base + "flow/startTransProcessActivity.do"// 发起流程获取第一审批路径
+var upflowperson = base + "flow/mobileUsersProcessActivity.do"// 发起流程获取第一审批人
+var upflowdata = base + "flow/saveProcessActivity.do"// 流程数据提交
+var willdolist = base + "flow/mobileTypeListTask.do"// 获取代办流程列表
+var willdolistnum = base + "flow/mobileCountListTask.do"// 获取代办流程数量
+var willdodetail = base + "htmobile/moblieGetTask.do"// 获取代办流程详情
+var online = base + "flow/mobileOuterTransProcessActivity.do"// 获取路径方式1
+var noendline = base + "flow/mobileUsersProcessActivity.do"// 获取路径方式2
+var nohandlerline = base + "flow/checkTask.do"// 获取路径方式3
+var willflowup = base + "flow/nextProcessActivity.do"// 待办签字提交
+var overflow = base + "flow/myProcessRun.do"// 已办流程
+var overflowdetail = base + "htmobile/getMoblieFormTask.do"// 获取已办详情
+// var base = "http://58.17.74.135:6775/joffice/";
+// var base = "http://192.168.3.72:8088/sdhyscheduleSQ/"
+// 所有司机
+var getAllDriverNameURL = base + "PhoneQueryAction!getAllDriverName.shtml"
+// 所有车号
+var getAllBusCodeURL = base + "PhoneQueryAction!getAllBusCode.shtml"
+// 所有线路
+var getLinesByOperatorURL = "http://192.168.3.131:8123/sdhyscheduleSQ/" + "PhoneQueryAction!getLinesByOperator.shtml"
+// 里程
+var getDriverDetailMileURL = base + "PhoneQueryAction!getDriverDetailMile.shtml"
+// 报警
+var getWarnListURL = base + "PhoneQueryAction!getWarnList.shtml"
+//获取站点
+var getLineStationURL = "http://192.168.3.131:8123/sdhyscheduleSQ/" + "PhoneQueryAction!getLineStation.shtml"
+//车次查询     http://192.168.3.73:8088/sdhyscheduleSQ
+var getTrainsSearchURL = "http://192.168.3.73:8088/sdhyscheduleSQ/" + "PhoneQueryAction!getTrainNumberDetail.shtml"
+//配车排班
+var getShiftArrangementURL = "http://192.168.3.193:8080/sdhyschedulesq/" + "PhoneQueryAction!getOperationClassQueryList.shtml"
+//完成、准点率
+var getCompletionOrPunctualityRateURL = "http://192.168.3.73:8080/sdhyscheduleSQ/" + "PhoneQueryAction!getBfrAndOtd.shtml"
+//停车信息
+var getParkingInformationQueryURL = base + "PhoneQueryAction!getBusNightparkingList.shtml"
+//考勤明细
+var getAttendanceDetailsURL = base + "hrm/listWorkDays.do"
+//部门列表
+var getDepartmentListURL = "http://221.6.253.254:8072/joffice/system/getDepStoreOrganization.do"
+//部门下人员列表
+var getStaffUnderTheDepartmentListURL = "http://221.6.253.254:8072/joffice/hrm/profileListEmpProfile.do"
+//违规查询
+var getViolationInforURL = "http://192.168.3.85:8080/HyERPFuYang_Web_exploded/starkh/listQxJckrichangJc.do"
+//违规详情
+var getViolationInforDetailURL = "http://192.168.3.85:8080/HyERPFuYang_Web_exploded/starkh/listQxJckrichangJc.do"
+//违规详情
+var getViolationInforListDetailURL = "http://192.168.3.85:8080/HyERPFuYang_Web_exploded/starkh/AppListDetailedJckrichangJc.do"
+//违规、中心上报 审核意见
+var getOpinionsURL = "http://192.168.3.85:8080/HyERPFuYang_Web_exploded/" + "starkh/adviceSaveJckrichangJc.do"
+
+//请求加油列表
+var getRequestListURL = "http://192.168.3.72:8088/sdhyscheduleSQ/" + "PhoneQueryAction!getQuestInfo.shtml"
+//请求加油处理
+var getRequestDealURL = "http://192.168.3.72:8088/sdhyscheduleSQ/" + "SocketClientAction!askRefuelDispose.shtml"
+
+
+
+
+module.exports = {
+	base: base,
+	login: login,
+	carno:carno,
+	person:person,
+	upflowline:upflowline,
+	upflowperson:upflowperson,
+	upflowdata:upflowdata,
+	willdolist:willdolist,
+	willdolistnum:willdolistnum,
+	willdodetail:willdodetail,
+	online:online,
+	noendline:noendline,
+	nohandlerline:nohandlerline,
+	willflowup:willflowup,
+	overflow:overflow,
+	overflowdetail:overflowdetail,
+
+	getAllDriverNameURL: getAllDriverNameURL,
+	getAllBusCodeURL: getAllBusCodeURL,
+	getLinesByOperatorURL: getLinesByOperatorURL,
+	getDriverDetailMileURL: getDriverDetailMileURL,
+	getWarnListURL: getWarnListURL,
+	getLineStationURL: getLineStationURL,
+	getTrainsSearchURL: getTrainsSearchURL,
+	getShiftArrangementURL: getShiftArrangementURL,
+	getCompletionOrPunctualityRateURL: getCompletionOrPunctualityRateURL,
+	getParkingInformationQueryURL: getParkingInformationQueryURL,
+	getAttendanceDetailsURL: getAttendanceDetailsURL,
+	getDepartmentListURL: getDepartmentListURL,
+
+	getStaffUnderTheDepartmentListURL: getStaffUnderTheDepartmentListURL,
+	getViolationInforURL: getViolationInforURL,
+	getViolationInforDetailURL: getViolationInforDetailURL,
+	getViolationInforListDetailURL: getViolationInforListDetailURL,
+	getOpinionsURL: getOpinionsURL,
+	getRequestListURL: getRequestListURL,
+	getRequestDealURL: getRequestDealURL
+
+}

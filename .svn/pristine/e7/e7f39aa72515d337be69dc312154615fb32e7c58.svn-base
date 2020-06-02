@@ -1,0 +1,5 @@
+var base = "http://58.17.74.135:6775/joffice/";
+
+module.exports = {
+	base: base
+}

@@ -1,0 +1,51 @@
+<template>
+	<view @tap="handleClick" :style="{width:size+'px',height:size+'px'}" :class="['c-avatar',shape === 'circle' ?  'circle' : shape === 'square' ? 'square' : '']" >
+		<image v-if="text == ''" class="img" :src="src" mode="aspectFill"></image>
+		<view v-else class="text"  :style="{'line-height':size+'px'}">{{text}}</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		name:'c-avatar',
+		props:{
+			src:{
+				type:String,
+				default:"/static/logo.png"
+			},
+			shape:{
+				type:String,
+				default:'circle'
+			},
+			text:{
+				type:String,
+				default:''
+			},
+			size:{
+				type:Number,
+				default:40
+			}
+		},
+		data() {
+			return {
+				
+			};
+		},
+		methods:{
+			handleClick(){
+				this.$emit("handleClick");
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.c-avatar{
+		overflow: hidden;
+		
+		.img{width: 100%;height: 100%}
+		.text{width: 100%;height: 100%;text-align: center;background-color: $color-primary;color: #fff;font-size:16px;}
+	}
+	.circle{border-radius: 50%}
+	.square{border-radius: 6px}
+</style>

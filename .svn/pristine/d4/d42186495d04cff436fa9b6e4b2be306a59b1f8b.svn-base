@@ -1,0 +1,159 @@
+<template>
+	<view>
+		<uni-list v-for="(item, index) in funcModules" v-if="item.show" :index="index" :key="index">
+			<uni-list-item :title="item.title" :show-badge="true" :badge-text="item.badge" @click="onClient(item)"></uni-list-item>
+			<view class="hourLine"></view>
+		</uni-list>
+	</view>
+</template>
+
+<script>
+var resquestJSOB = require('../../../common/js/hy-request.js');
+var urlJSOB = require('../../../common/js/hy-url.js');
+import uniList from '@/components/uni-list/uni-list.vue';
+import uniListItem from '@/components/uni-list-item/uni-list-item.vue';
+import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
+export default {
+	components: { uniList, uniListItem, uniNavBar },
+	data() {
+		return {
+			funcModules: [
+				{
+					show: true,
+					title: '公文管理',
+					imgUrl: '/static/flow/flow_item1.png',
+					pageUrl: 'myWillFlowList',
+					badge: '',
+					showBadge: false,
+					type: 'primary',
+					tag: 100001,
+					proTypeId: 4829
+				},
+				{
+					show: true,
+					title: '行政管理',
+					imgUrl: '/static/flow/flow_item2.png',
+					pageUrl: 'myWillFlowList',
+					badge: '',
+					showBadge: false,
+					type: 'primary',
+					tag: 100002,
+					proTypeId: 4830
+				},
+				{
+					show: true,
+					title: '人资管理',
+					imgUrl: '/static/flow/flow_item3.png',
+					pageUrl: 'myWillFlowList',
+					badge: '',
+					showBadge: false,
+					type: 'primary',
+					tag: 100003,
+					proTypeId: 4831
+				},
+				{
+					show: true,
+					title: '财务管理',
+					imgUrl: '/static/flow/flow_item4.png',
+					pageUrl: 'myWillFlowList',
+					badge: '',
+					showBadge: false,
+					type: 'primary',
+					tag: 100004,
+					proTypeId: 4832
+				},
+				{
+					show: true,
+					title: '采购管理',
+					imgUrl: '/static/flow/flow_item5.png',
+					pageUrl: 'myWillFlowList',
+					badge: '',
+					showBadge: false,
+					type: 'primary',
+					tag: 100005,
+					proTypeId: 4833
+				}
+			]
+		};
+	},
+	onLoad() {},
+	onShow() {
+		this.getWillDoNum();
+	},
+	methods: {
+		onClient: function(e) {
+			switch (e.tag) {
+				case 100001:
+					uni.navigateTo({
+						url: e.pageUrl + '?type=4829'
+					});
+					break;
+				case 100002:
+					uni.navigateTo({
+						url: e.pageUrl + '?type=4830'
+					});
+					break;
+				case 100003:
+					uni.navigateTo({
+						url: e.pageUrl + '?type=4831'
+					});
+					break;
+				case 100004:
+					uni.navigateTo({
+						url: e.pageUrl + '?type=4832'
+					});
+					break;
+				case 100005:
+					uni.navigateTo({
+						url: e.pageUrl + '?type=4833'
+					});
+					break;
+			}
+		},
+		//获取代办数量
+		getWillDoNum: function(e) {
+			var that = this;
+			resquestJSOB.sendGetRequestJson({
+				url: urlJSOB.willdolistnum, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+				data: {},
+				successCallBack: function(data) {
+					console.log(data.result);
+					console.log(that.funcModules);
+					for (var k = 0; k < that.funcModules.length; k++) {
+						that.funcModules[k].badge = '';
+					}
+
+					for (var i = 0; i < data.result.length; i++) {
+						for (var k = 0; k < that.funcModules.length; k++) {
+							if (that.funcModules[k].proTypeId == data.result[i].proTypeId) {
+								console.log(that.funcModules[k].proTypeId);
+								console.log(data.result[i].proTypeId);
+								that.funcModules[k].badge = data.result[i].quantity;
+							}
+						}
+					}
+					console.log(that.funcModules);
+				},
+				failCallBack: function(e) {
+					print(e);
+				}
+			});
+		},
+		finish: function(e) {
+			uni.redirectTo({
+				url: '../../index/index'
+			});
+		}
+	}
+};
+</script>
+
+<style>
+.hourLine {
+	height: 1rpx;
+	width: 100%;
+	background-color: #808080;
+	margin-left: 10rpx;
+	margin-right: 10rpx;
+}
+</style>

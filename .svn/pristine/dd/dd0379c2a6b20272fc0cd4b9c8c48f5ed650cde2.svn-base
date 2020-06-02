@@ -1,0 +1,101 @@
+page {
+    min-height: 100%;
+    height: auto;
+}
+
+.item{
+	display: flex;
+	width: 100%;
+	align-items: center;
+	background-color: #FFFFFF;
+	min-height: 100rpx;
+}
+
+.hourLine {
+	height: 1rpx;
+	width: 100%;
+	background-color: #808080;
+	margin-left: 10rpx;
+	margin-right: 10rpx;
+}
+
+.itemName{
+	height: 100rpx;
+	width: 180rpx;
+	display: flex;
+	line-height: auto;
+	margin-left: 10rpx;
+	font-size: 30rpx;
+	align-items: center;
+	justify-content: center;
+	line-height: 150rpx;
+}
+
+.itemNamearea{
+	height: 150rpx;
+	width: 180rpx;
+	display: flex;
+	line-height: auto;
+	margin-left: 10rpx;
+	font-size: 30rpx;
+	align-items: center;
+	justify-content: center;
+	line-height: 150rpx;
+}
+
+.inputarea{
+	display: block;
+	width: auto;	
+	height: max-content;
+	display: flex;
+	flex-grow: 1;
+	auto-height:true;
+}
+
+.itemValue{
+	flex-grow: 1;
+	position: relative;
+}
+
+.input{
+	min-height: 100rpx;
+	font-size: 30rpx;
+	display: inline-block;
+	text-align: left;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.t-header{
+	height: 120rpx;
+	border-bottom: #808080 0.5rpx solid;
+	border-right: #808080 0.5rpx solid;
+	border-top: #808080 0.5rpx solid;
+	background-color: #FFFFFF;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	line-height: 120rpx;
+	font-size: 30rpx;
+}
+.text{
+	width: 100%;
+	display: flex;
+	height: 65rpx;
+	color: #DC3545;
+	justify-content: left;
+	border-bottom: #000000 solid 1rpx;
+}
+.text1{
+	width: 100%;
+	display: flex;
+	height: 65rpx;
+	justify-content: left;
+	border-bottom: #000000 solid 1rpx;
+}
+.vText{
+	height: 45rpx;
+	width: 100%;
+	background-color: #D0DEE5;
+}
+

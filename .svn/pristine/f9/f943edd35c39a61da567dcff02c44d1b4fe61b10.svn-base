@@ -1,0 +1,89 @@
+<template>
+	<view class="setting c-padding-wrap">
+		<view class="c-card" v-for="(list,index) in lists" :key="index">
+			<view class="c-list">
+				<view class="c-list-cell uni-collapse">
+					<view class="c-list-cell-navigate uni-navigate-right" hover-class="c-list-cell-hover" @click="goDetailPage(list.url)">
+						<view style="width: 75%;">{{list.name}}</view>
+						<cAvatar shape='circle'   class='text-cut' :text="list.rightText"  :size="17"  />
+						<text ></text>
+					</view>
+				</view>
+			</view>
+		</view>
+		
+		<!-- <view class="padding-sm flex flex-direction">
+			<button class="cu-btn bg-blue margin-tb-sm lg" @tap="logout">退出登录</button>
+		</view>	 -->
+	</view>
+</template>
+
+<script>
+	
+    
+	import cList from '@/components/c-list/c-list.vue'
+	import cListItem from '@/components/c-list-item/c-list-item.vue'
+	import cAvatar from '@/components/c-avatar/c-avatar.vue'
+	export default {
+		components: {cList,cListItem,cAvatar},
+		data() {
+			return {
+				lists: [
+					{
+						name: "加油请求信息",
+						url: "clear",
+						rightText:"5",
+					},
+					{
+						name: "包车请求信息",
+						url: "version",
+						rightText:"8",
+					},
+					{
+						name: "维修请求信息",
+						url: "",
+						rightText:"8",
+					},
+					{
+						name: "违规信息",
+						url: "",
+						rightText:"8",
+					},
+					{
+						name: "中心信息",
+						url: "",
+						rightText:"8",
+					},
+					{
+						name: "运营异常信息",
+						url: "",
+						rightText:"0",
+					},
+					{
+						name: "车载机报警",
+						url: "",
+						rightText:"0",
+					},
+					
+				]
+			}
+		},
+        
+		methods: {
+			
+			// logout(){
+			// 	uni.clearStorageSync();
+			// },
+			
+		}
+	}
+</script>
+
+<style lang="scss">
+	.uni-card {box-shadow: none;}
+	.c-list:after {height: 0;}
+	.c-list:before {height: 0;}
+	.uni-hello-text {word-break: break-all;}
+	.right{margin-right: 30upx;}
+	
+</style>

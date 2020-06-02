@@ -1,0 +1,73 @@
+function testString(str,subStr){//判定str字符串中是否含有subStr
+	var expr = new RegExp(subStr);
+	var isContain = expr.test(str);  // true
+	return isContain;
+}
+const write = "2";
+const read = "1";
+//公务用车申请表
+const userCarDefId = "20623";
+const userCarFormDefId = "10142";
+//车辆维修审批单
+const maintainCarDefId = "20638";
+const maintainCarFormDefId = "10145";
+//公务接待申请表
+const receptionDefId = "20671";
+const receptionFormDefId = "10146";
+//公务用餐申请表
+const receptionDiningDefId = "20637";
+const receptionDiningFormDefId = "10141";
+//固定资产采购申请表
+const assetPurchaseDefId = "20679";
+const assetPurchaseFormDefId = "10147";
+//固定资产处置审批表
+const assetDisposalDefId = "20635";
+const assetDisposalFormDefId = "10148";
+//合同审批表
+const contractDigningDefId = "20633";
+const contractDigningFormDefId = "10149";
+//会议室使用申请单
+const mettingHomeDefId = "20628";
+const mettingHomeFormDefId = "10143";
+//会议室使用申请单
+const mettingLeaveDefId = "20684";
+const mettingLeaveFormDefId = "10150";
+//签呈单
+const signatureDefId = "20632";
+const signatureFormDefId = "10151";
+//办公物品申购
+const workPuechaseDefId = "20634";
+const workPuechaseFormDefId = "10144";
+//职工请假单
+const driverLeaverDefId = "20708";
+const driverLeaverFormDefId = "10154";
+
+module.exports = {
+	write,
+	read,
+	userCarDefId,
+	userCarFormDefId,
+	maintainCarDefId,
+	maintainCarFormDefId,
+	receptionDefId,
+	receptionFormDefId,
+	receptionDiningDefId,
+	receptionDiningFormDefId,
+	assetPurchaseDefId,
+	assetPurchaseFormDefId,
+	assetDisposalDefId,
+	assetDisposalFormDefId,
+	contractDigningDefId,
+	contractDigningFormDefId,
+	mettingHomeDefId,
+	mettingHomeFormDefId,
+	mettingLeaveDefId,
+	mettingLeaveFormDefId,
+	signatureDefId,
+	signatureFormDefId,
+	workPuechaseDefId,
+	workPuechaseFormDefId,
+	testString: testString,
+	driverLeaverDefId:driverLeaverDefId,
+	driverLeaverFormDefId:driverLeaverFormDefId
+}

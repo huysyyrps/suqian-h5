@@ -1,0 +1,220 @@
+<template>
+	<view>
+		<scroll-view scroll-y="true">
+			<view>
+				<view class="item">
+					<text class="itemName">申请人:</text>
+					<text class="input" placeholder="请选择申请人">{{ person }}</text>
+				</view>
+				<view class="hourLine"></view>
+
+				<view class="item">
+					<text class="itemName">申请部门:</text>
+					<text class="input" placeholder="请选择申请部门">{{ department }}</text>
+				</view>
+				<view class="hourLine"></view>
+
+				<!-- <view class="item">
+					<text class="itemName">申请时间:</text>
+					<text class="input" :value="date" type="text" />
+				</view>
+				<view class="hourLine"></view> -->
+
+				<view class="item">
+					<text class="itemName">公务车号*:</text>
+					<text class="input">{{ carNo }}</text>
+				</view>
+				<view class="hourLine"></view>
+
+				<view class="item">
+					<text class="itemName">驾驶员*:</text>
+					<text class="input">{{ driver }}</text>
+				</view>
+				<view class="hourLine"></view>
+
+				<view class="item">
+					<text class="itemName">使用期限*:</text>
+					<input class="input" placeholder="请输入使用期限" v-model="userTime" />
+				</view>
+				<view class="hourLine"></view>
+
+				<view class="item">
+					<text class="itemName" style="display: flex;justify-content: center;align-items: center;">申请事由*:</text>
+					<textarea class="input" :auto-height="true" placeholder="请输入申请事由" v-model="reason" />
+				</view>
+				
+				<view class="hourLine"></view>				
+				<view class="item">
+					<text class="itemName" style="width: auto">是否出差用车*:</text>
+					<input class="input" placeholder="" v-model="userCar" />
+				</view>
+				
+				<view class="vText"></view>
+				<view class="item">
+					<text class="itemName" >部门负责人:</text>
+					<input class="input" :auto-height="true" v-model="bmfzryj" />
+					<!-- <textarea class="input" v-if="bmfzrRemote == write" :auto-height="true" v-model="bmfzryj" style="padding-top: 30rpx; padding-left: 25rpx;" /> -->
+				</view>
+				<view class="hourLine"></view>
+				<view class="item">
+					<text class="itemName" >办公室意见:</text>
+					<input class="input" :auto-height="true" v-model="bgsyj" />
+				</view>
+				<view class="hourLine"></view>
+				<view class="item">
+					<text class="itemName" >分管领导:</text>
+					<input class="input" :auto-height="true" v-model="fgldyj"  />
+				</view>
+				<view class="hourLine"></view>
+
+
+			</view>
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+var runID = '';
+var resquestJSOB = require('../../../../../common/js/hy-request.js');
+var urlJSOB = require('../../../../../common/js/hy-url.js');
+var dataString = require('../../../../../common/js/hy-stringUtil.js');
+export default {
+	components: {},
+	data() {
+		return {
+			write: dataString.write,
+			read: dataString.read,
+			bmfzryj: '',
+			bgsyj: '',
+			fgldyj: '',
+			type: '',
+			title: '',
+			person: '',
+			ecard: '',
+			department: '',
+			carNo: '',
+			userCode: '',
+			userName: '',
+			leader :'',
+			leaderCode :'',
+			leaderName :'',
+			driver: '',
+			userTime: '',
+			reason: '',
+			userCar:'',
+			flowAssignId:'',
+			nametemp: [],
+			allnametemp:[],
+			codetemp:[],
+			allcodetemp:[],
+			bigNametemp: [],
+			bigCodetemp:[],
+			destTypeList: [],
+			namelist:[],
+			selectperson: [],
+			selectindex: [],
+			test: [],
+		};
+	},
+	onLoad(options) {
+		// const item = JSON.parse(decodeURIComponent(options.data));
+		runID = options.runId;
+		console.log(runID);
+		this.getUserCarFlowDetail();
+	},
+	methods: {
+		getUserCarFlowDetail: function(e) {
+			var that = this;
+			resquestJSOB.sendGetRequestJson({
+				url: urlJSOB.overflowdetail, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+				data: {
+					runId: runID,
+				},
+				successCallBack: function(data) {
+					console.log(data);
+					runID = data.mainform[0].runId;
+					that.person = data.mainform[0].sqr;
+					that.department = data.mainform[0].sqbm;
+					that.carNo = data.mainform[0].gwch;
+					that.driver = data.mainform[0].jsy;
+					that.userTime = data.mainform[0].syqx;
+					that.reason = data.mainform[0].sqsy;
+					that.userCar = data.mainform[0].sfccyc;
+					
+					if(data.mainform[0].bmfzryj!=""){
+						that.bmfzryj = JSON.parse(data.mainform[0].bmfzryj)[0].v;
+					}
+					if(data.mainform[0].bgsyj!=""){
+						that.bgsyj = JSON.parse(data.mainform[0].bgsyj)[0].v;
+					}
+					if(data.mainform[0].fgldyj!=""){
+						that.fgldyj = JSON.parse(data.mainform[0].fgldyj)[0].v;
+					}
+					
+					
+					
+					console.log(that.fgldyj);
+				},
+				failCallBack: function(e) {
+					print(e);
+					console.log(e);
+				}
+			});
+		},
+	}
+};
+</script>
+
+<style>
+@import '../../../../../common/css/itemName.css';
+.btn {
+	margin: 50rpx;
+	background-color: #007aff;
+	color: #ffffff;
+}
+.input {
+	font-size: 30rpx;
+	line-height: 90rpx;
+}
+/* 提示窗口 */
+.uni-tip {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	flex-direction: column;
+	/* #endif */
+	padding: 15px;
+	width: 300px;
+	background-color: #fff;
+	border-radius: 10px;
+}
+
+.uni-tip-title {
+	margin-bottom: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+	color: #333;
+}
+
+.uni-tip-content {
+	/* padding: 15px;
+  */
+	font-size: 14px;
+	color: #666;
+}
+
+.uni-tip-group-button {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	margin-top: 20px;
+}
+
+.uni-tip-button {
+	flex: 1;
+	text-align: center;
+	font-size: 14px;
+	color: #3b4144;
+}
+</style>

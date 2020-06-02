@@ -1,0 +1,91 @@
+<!-- 里程查询详情 -->
+<template>
+	<view>
+		<scroll-view scroll-x="true" scroll-y="true" show-scrollbar="false">
+		<t-table style="width: 200%;" border="1" border-color="#f5F5F5">
+			<t-tr font-size="16" color="#00000">
+				<t-th v-for="mileageItem in titleList" 
+				      :key="mileageItem.index" style="width: 50%;" >{{mileageItem}}</t-th>
+			</t-tr>
+			<t-tr font-size="15" color="#000000" 
+			      v-for="mileageDetailItem in detailList" :key="mileageDetailItem.index">
+				<t-td>{{mileageDetailItem.lineCode}}</t-td>
+				<t-td>{{mileageDetailItem.busCode}}</t-td>
+				<t-td>{{mileageDetailItem.driverName}}</t-td>
+				<t-td>{{mileageDetailItem.planMile}}</t-td>
+				<t-td>{{mileageDetailItem.realMile}}</t-td>
+				<t-td>{{mileageDetailItem.GPSMileage}}</t-td>
+				<t-td>{{mileageDetailItem.bancheMile}}</t-td>
+				<t-td>{{mileageDetailItem.baocheMile}}</t-td>
+				<t-td>{{mileageDetailItem.kongshiMile}}</t-td>
+				<t-td>{{mileageDetailItem.realTrip}}</t-td>
+				
+			</t-tr>
+		</t-table>
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	import tTable from '@/components/t-table/t-table.vue';
+	import tTh from '@/components/t-table/t-th.vue';
+	import tTr from '@/components/t-table/t-tr.vue';
+	import tTd from '@/components/t-table/t-td.vue';
+	var resquestJSOB = require('../../../common/js/hy-request.js');
+	var urlJSOB = require('../../../common/js/hy-url.js');
+	var stringUtil = require('../../../common/js/hy-stringUtil.js');
+	export default {
+		components: {
+			tTable,
+			tTh,
+			tTr,
+			tTd
+		},
+		data() {
+			return {
+				titleList:[
+					"线路",
+					"车号",
+					"驾驶员",
+					"计划里程",
+					"实际里程",
+					"GPS里程",
+					"班车里程",
+					"包车里程",
+					"空驶里程",
+					"趟次"
+				],
+				detailList:[],
+				requestDic:{}
+			}
+		},
+		onLoad(data) {
+		    this.requestDic = JSON.parse(data.sendDic)
+			this.sendMileageDataRequest()
+		},
+		methods: {
+			// 网络请求
+			sendMileageDataRequest() { //
+				var that = this;
+				console.log('请求')
+				resquestJSOB.sendGetRequestJson({
+					url: urlJSOB.getDriverDetailMileURL, //urlJSOB.base+"repair/getMeasureCountMeasureBus.do",//
+					data: that.requestDic,
+					successCallBack: function(res) {
+						console.log(res)
+						that.detailList = res  
+				    },
+					failCallBack: function() {
+			        
+					}
+				});
+			}
+		    
+		}
+	}
+</script>
+
+<style>
+</style>
+
+

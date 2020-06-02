@@ -1,0 +1,39 @@
+var base = "http://192.168.3.72:8088/sdhyscheduleSQ/"
+// 所有司机
+var getAllDriverNameURL = base + "PhoneQueryAction!getAllDriverName.shtml"
+// 所有车号
+var getAllBusCodeURL = base + "PhoneQueryAction!getAllBusCode.shtml"
+// 所有线路
+var getLinesByOperatorURL = base + "PhoneQueryAction!getLinesByOperator.shtml"
+// 里程
+var getDriverDetailMileURL = base + "PhoneQueryAction!getDriverDetailMile.shtml"
+// 报警
+var getWarnListURL = base + "PhoneQueryAction!getWarnList.shtml"
+// 配车
+var getLineBusTimeListURL = base + "PhoneQueryAction!getLineBusTimeList.shtml"
+//获取线路
+var getLineStationURL = base + "PhoneQueryAction!getLineStation.shtml"
+//车次查询
+var getTrainsSearchURL = base + ""
+//班次查询
+var getShiftArrangementURL = base + ""
+//完成、准点率
+var getCompletionOrPunctualityRateURL = base + ""
+//停车信息
+var getParkingInformationQueryURL = base + ""
+
+module.exports = {
+	base: base,
+	getAllDriverNameURL: getAllDriverNameURL,
+	getAllBusCodeURL: getAllBusCodeURL,
+	getLinesByOperatorURL: getLinesByOperatorURL,
+	getDriverDetailMileURL: getDriverDetailMileURL,
+	getWarnListURL: getWarnListURL,
+	getLineBusTimeListURL: getLineBusTimeListURL,
+	getLineStationURL: getLineStationURL,
+	getTrainsSearchURL: getTrainsSearchURL,
+	getShiftArrangementURL: getShiftArrangementURL,
+	getCompletionOrPunctualityRateURL: getCompletionOrPunctualityRateURL,
+	getParkingInformationQueryURL: getParkingInformationQueryURL
+	
+}
